@@ -3,6 +3,16 @@
 > **本报告基于对 `third-party-bios/bios_2改关闭超线程解锁PL4解锁icc修改cstate.bin` 的详细解包分析。**
 > **所有 hash 已记录，可比对确认。**
 
+## 0. TL;DR（必看）
+
+针对这块 H610 定制板，我们解包分析 32MB BIOS 后有**三个颠覆性发现**：
+
+1. **microcode 不在 BIOS region**，是在 ME 区域 PMCC000 容器（0x23000 起，Huffman 压缩）
+2. **ME 已经是 16.1.25.1917**（理论上已支持 14 代 RPL-R）
+3. **FD signature 偏移到 0x10**（OEM 加了 16 字节前缀）
+
+**结论**：原"追加 microcode 到 BIOS region"方案不直接适用；推荐先装 i5-14400 试一下（ME 16.x 可能已含 RPL-R microcode）。
+
 ## 1. 整体概况
 
 | 项目 | 值 |
@@ -185,26 +195,25 @@ Entries (offset 0x20 起):
 
 ## 9. 工具脚本清单
 
-| 脚本 | 用途 |
-| --- | --- |
-| `tools/analyze_bin.py` | 整体分析（hash + FD + regions） |
-| `tools/scan_bin.py` | hex dump + 模式扫描 |
-| `tools/scan_microcode.py` | microcode 头扫描（v1 - 误判多） |
-| `tools/scan_v3.py` | microcode 严格匹配 |
-| `tools/scan_v4.py` | FFS 头 microcode 扫描 |
-| `tools/scan_ucode_guid.py` | GUID microcode 扫描 |
-| `tools/scan_strings.py` | 关键字符串扫描 |
-| `tools/parse_with_lib.py` | AutoParser 解析 |
-| `tools/parse_with_lib2.py` | FlashDescriptor 完整树 |
-| `tools/parse_me.py` | ME FPT 解析（v1） |
-| `tools/parse_me2.py` | ME FPT 解析（v2） |
-| `tools/parse_me3.py` | MePartitionTable 解析 |
-| `tools/parse_fpt.py` | FPT 区域 hex dump |
-| `tools/find_pmcp.py` | 找 PMCP / $CPD / MCD* |
-| `tools/scan_92k.py` | PMCP 区域 microcode 扫描 |
-| `tools/dump_pmcp.py` | PMCP 区域 hex dump |
-| `tools/dump_segments.py` | 关键段 hex dump |
-| `tools/parse_full.py` | **综合脚本**（汇总所有分析） |
+| 脚本 | 状态 | 用途 |
+| --- | --- | --- |
+| `tools/analyze.py` | ✅ **主工具** | 综合 BIOS bin 分析（hash + FD + ME + microcode 位置 + 14 代评估 + JSON 报告） |
+| `tools/requirements.txt` | ✅ | Python 依赖（`uefi-firmware>=1.16`） |
+| 其他 17 个实验脚本 | ⚠️ 已从 git 移除 | 本地保留供考古，**不推荐使用**——已被 `analyze.py` 取代 |
+
+**安装**：
+
+```bash
+pip install -r tools/requirements.txt
+```
+
+**运行**：
+
+```bash
+python tools/analyze.py your_dump.bin
+```
+
+**输出**：人类可读报告 + `<dump>.analysis.json` 详细数据。
 
 ## 10. 关键 hash（用于校验）
 

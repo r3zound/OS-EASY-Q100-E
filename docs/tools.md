@@ -1,8 +1,77 @@
 # 工具指南
 
-## 1. 备份 / 刷写工具
+> 本项目主要用 Python 脚本做分析，外部工具（CH341A、UEFITool、AMIBCP 等）见末尾"参考工具"章节。
 
-### 1.1 CH341A 编程器 + 烧录夹
+## 1. 本项目自带工具
+
+### `tools/analyze.py`（主工具）
+
+**综合 BIOS bin 分析脚本**。输入 32MB 整片 SPI flash dump，输出：
+
+- 整体 hash（SHA256 / MD5 / CRC32）
+- Flash Descriptor 布局（**自动处理 OEM 偏移**）
+- ME 区域 + FPT 详细（13 个 partitions）
+- $CPD (Code Partition Directory) 扫描
+- microcode 位置（PMCC000 容器）
+- 14 代 RPL-R 支持评估
+- JSON 详细报告
+
+**安装**：
+
+```bash
+pip install -r tools/requirements.txt
+```
+
+需要 `uefi-firmware >= 1.16`（Python 库）。
+
+**运行**：
+
+```bash
+python tools/analyze.py your_dump.bin
+```
+
+**输出示例**：
+
+```
+=== your_dump.bin ===
+大小:    33554432 bytes (32.00 MB)
+SHA256:  50bf84a961e8cc861f6375e231a7e9723c8396c706d86a81f33befc5085b5b41
+MD5:     47bffc5a3543c54b39f09737480059bb
+CRC32:   f42ddf2c
+
+【Flash Descriptor】
+  FD signature 在 0x00000010 (标准是 0x00，本机偏移到 0x10 说明有 OEM 前缀)
+
+【ME 区域 $FPT】
+  $FPT 在 0x001a9000
+  ME 版本: 16.1.25.1917
+  Partitions: 13
+
+【microcode 位置】
+  BIOS region (传统 FFS microcode 文件):
+    [-] 未找到（这块板的 microcode 不在 BIOS region）
+  ME 区域 (PMCP 容器):
+    [+] PMCC000 in $CPD @ 0x00023000
+
+【14 代 RPL-R 支持评估】
+  ME 版本: 16.1.25.1917 (16.x - 理论支持 14 代)
+```
+
+**JSON 报告**：自动生成 `<dump>.analysis.json`，含完整结构化数据。
+
+**已知限制**：
+
+- ME 区域内的 Huffman 压缩 microcode 容器**不会自动解压**
+- 要看具体 microcode 列表，需要二次开发（huffman 解压 + microcode 解析）
+- 如果你需要做这个，欢迎 PR
+
+### `tools/requirements.txt`
+
+Python 依赖列表。当前只有 `uefi-firmware>=1.16`。
+
+## 2. 编程器刷写工具（外部）
+
+### 2.1 CH341A 编程器 + 烧录夹
 
 **作用**：读 / 写 SPI Flash 芯片（BIOS 芯片）
 
@@ -21,9 +90,8 @@
 **获取**：
 
 - 淘宝 / 拼多多搜"CH341A 编程器 烧录夹"，30-50 元全套
-- 软硬件完全开源，避免被坑
 
-### 1.2 编程器软件设置
+### 2.2 NeoProgrammer 操作流程
 
 ```
 芯片型号选择：先 Detect（自动识别）→ 不能识别时手动选
@@ -32,133 +100,52 @@ SPI 模式：Standard
 时钟：默认
 ```
 
-**操作流程**：
-
 ```
 1. Detect → 2. Read（保存原厂 .bin）→ 3. Blank Check → 4. Open（新 .bin）→ 5. Program → 6. Verify
 ```
 
-## 2. BIOS 解析工具
+## 3. BIOS 解析工具（外部，可选）
 
-### 2.1 UEFITool
+### 3.1 UEFITool
 
-**作用**：解析 UEFI 镜像、查看 FIT（Flash Image Table）、定位 microcode region
+**作用**：解析 UEFI 镜像、查看 FIT 表
 
 **下载**：https://github.com/LongSoft/UEFITool
 
-**关键操作**：
+**注意**：这块 Q100-E 的 FD signature 在 0x10（OEM 偏移），UEFITool 默认搜 0x00 可能误判"无效 FD"——**先用 `tools/analyze.py` 看清楚再开 UEFITool**。
 
-```
-File → Open → 选 .bin
-左侧树状图展开：
-  Intel Flash Image
-  ├── FD (Flash Descriptors)
-  ├── ME (Management Engine)
-  ├── BIOS Region
-  │   ├── Microcode
-  │   │   ├── 06-97-05/... (ADL-S)
-  │   │   ├── 06-B7-XX/... (RPL-S)
-  │   │   └── (RPL-R 待追加)
-  │   └── ...
-  └── GbE
-```
-
-**导出 microcode**：
-
-- 右键 microcode → Extract body → 保存为独立 .bin
-- 多个 microcode 用 Extract as-is → 批量导出
-
-### 2.2 ME Analyzer
+### 3.2 ME Analyzer
 
 **作用**：解析 ME 区域版本、大小、配置
 
 **下载**：https://github.com/LongSoft/MEAnalyzer
 
-**关键操作**：
+### 3.3 IRFExtractor
 
-```
-File → Open → 选 .bin
-查看：
-  - ME 版本（如 12.0.x）
-  - ME Region 大小
-  - 厂商（AMI / Insyde / Phoenix）
-  - SKU（Corporate / Consumer）
-  - 固件大小、占位大小
-```
-
-**重要**：改 BIOS 前记录 ME 区域 hash，刷回后对比确认 ME 没动。
-
-### 2.3 IRFExtractor
-
-**作用**：提取 Setup IFR（Internal Forms Representation），把隐藏 BIOS 选项转成可读文本
+**作用**：提取 Setup IFR，把隐藏 BIOS 选项转成可读文本
 
 **下载**：https://github.com/LongSoft/IFRExtractor
 
-**用途**：
+## 4. BIOS 修改工具（外部，本项目用不到）
 
-- 查看 BIOS 有哪些隐藏选项
-- AMIBCP 改过哪些项后能 diff 对比
-
-## 3. microcode 注入工具
-
-### 3.1 MMTool（Aptio 版）
+### 4.1 MMTool（Aptio 版）
 
 **作用**：添加 / 替换 / 删除 microcode
 
 **下载**：https://www.win-raid.com/t596f39-AMI-Aptio-MMTool.html
 
-**关键操作**：
+> ⚠️ **本项目暂不直接使用**——这块板的 microcode 在 ME 区域，不在传统 BIOS region。
+> 如果以后改 ME 区域内的 microcode，可能需要 Huffman 解压工具（MEBin、UEFITool NE）。
 
-```
-1. 打开 .bin
-2. 切到 "CPU Patch" tab
-3. CPU Patch List 显示已有 microcode
-4. 记录每个 microcode 的：
-   - CPUID
-   - Platform / Version
-   - Date
-5. Load Patch → 选要追加的 .bin
-6. 选好插入位置（默认第一个空位）
-7. Apply → 保存为新 .bin
-```
+### 4.2 AMIBCP
 
-**风险提示**：
+**作用**：修改 AMI BIOS 的 Setup 隐藏选项默认值
 
-- 容量不够时会报错 → 需要先删旧 microcode 或扩大 region
-- 删错会让旧 CPU 不亮 → **必须先备份**
-
-### 3.2 iucode_tool（Linux 端）
-
-**下载**：`apt install intel-microcode` 或 GitHub microcode 仓库
-
-**提取 microcode**：
-
-```bash
-iucode_tool -L /lib/firmware/intel-ucode/ -l | grep "RPL"
-# 或
-iucode_tool --scan-system 提取系统中已有的 microcode
-```
-
-## 4. 改 Setup / 解锁选项
-
-### 4.1 AMIBCP
-
-**作用**：直接修改 AMI BIOS 的 Setup 隐藏选项默认值
-
-**下载**：https://github.com/LongSoft/AMIBIOS-Configuration-Program 或 win-raid 论坛
-
-**使用**：
-
-```
-1. 打开 .bin
-2. 展开 Setup tree
-3. 找到要改的项 → 改 Default / Visible / Access
-4. 保存
-```
+**下载**：win-raid 论坛或 GitHub 搜
 
 **Q100-E 典型用途**：
 
-- 改 PL1 / PL2 默认值
+- 改 PL1 / PL2 默认值（第三方 BIOS 已改）
 - 解锁 mSATA 隐藏选项
 - 关闭超线程默认值
 
@@ -167,12 +154,14 @@ iucode_tool --scan-system 提取系统中已有的 microcode
 ### 5.1 哈希工具
 
 Windows PowerShell：
+
 ```powershell
 Get-FileHash -Algorithm SHA256 .\file.bin
 Get-FileHash -Algorithm MD5 .\file.bin
 ```
 
 Linux：
+
 ```bash
 sha256sum file.bin
 md5sum file.bin
@@ -195,10 +184,11 @@ HWiNFO64 → CPU → CPU 0 → Microcode Update Revision
 | 阶段 | 工具 | 用途 |
 | --- | --- | --- |
 | 备份 | CH341A + NeoProgrammer | 读原厂 bin |
-| 解析 | UEFITool | 定位 microcode region |
-| 解析 | ME Analyzer | 查看 ME 区域 |
-| 改 microcode | MMTool | 追加 RPL-R |
-| 改隐藏项 | AMIBCP | 改 Setup 默认值 |
-| 校验 | UEFITool + hash | 确认其他 region 没动 |
+| **分析** | **`tools/analyze.py`** | **整体结构 + 14 代评估**（本项目主工具） |
+| 解析 | UEFITool | UEFI region 树状图 |
+| 解析 | ME Analyzer | ME 详细参数 |
+| 改 microcode | MMTool | ⚠️ 本项目用不到（microcode 不在 BIOS region） |
+| 改隐藏项 | AMIBCP | 改 Setup 默认值（电源管理） |
+| 校验 | hash | 确认其他 region 没动 |
 | 刷回 | CH341A + NeoProgrammer | 写新 bin |
 | 验证 | HWiNFO64 | 系统内确认 microcode 加载 |

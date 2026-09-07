@@ -32,3 +32,29 @@ __pycache__/
 # 工具临时输出
 uefitool_temp/
 mmtool_temp/
+
+# 分析脚本自动生成的 JSON 报告
+*.analysis.json
+
+# 实验性 BIOS 分析脚本（保留在本地但不入库）
+# 当前保留的唯一分析工具是 tools/analyze.py
+# 下面这些是开发过程中的一次性实验脚本，保留在本地供考古
+tools/analyze_bin.py
+tools/dump_pmcp.py
+tools/dump_segments.py
+tools/find_pmcp.py
+tools/parse_fpt.py
+tools/parse_full.py
+tools/parse_me.py
+tools/parse_me2.py
+tools/parse_me3.py
+tools/parse_with_lib.py
+tools/parse_with_lib2.py
+tools/scan_92k.py
+tools/scan_bin.py
+tools/scan_microcode.py
+tools/scan_strings.py
+tools/scan_ucode_guid.py
+tools/scan_v3.py
+tools/scan_v4.py
+
