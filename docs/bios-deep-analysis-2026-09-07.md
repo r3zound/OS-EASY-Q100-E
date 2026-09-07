@@ -11,12 +11,24 @@
 2. **差异范围 3MB**（共 2 段）：
    - 0x01000000-0x01030000（192 KB）：Setup/IFR/启动配置
    - 0x01091000-0x01377000（2.9 MB）：看起来是 ME 区域被同时改的部分
-3. **microcode 在 ME 区域 PMCC000 容器内**（Huffman 压缩），需要更高级工具才能解压看具体 microcode 列表
-4. **Setup 字符串**通过 EFI_HII 压缩编码，未找到明文"Hyper-Threading"/"PL1"等关键词，但找到：
+3. **microcode 在 ME 区域**找到 2 个 188KB 容器（在 FFS EFI microcode 文件里，binwalk 能识别）：
+   - 容器 1 在 0x1D90D18
+   - 容器 2 在 0x1E90B18
+   - **每个容器装 2 个 microcode**：`0x00090671` (Coffee Lake 9 代) + `0x000906a0` (Comet Lake 10 代)
+   - **🚨 不包含 12 代 ADL-S 或 14 代 RPL-R microcode**（用 iucode_tool 验证）
+4. ME 区域 PMCC000 容器（0x23000）的 microcode 是 **Huffman 压缩**，binwalk + iucode_tool 无法识别——可能含 12 代/14 代 microcode（待 Huffman 解压工具确认）
+5. **Setup 字符串**通过 EFI_HII 压缩编码，未找到明文"Hyper-Threading"/"PL1"等关键词，但找到：
    - `IccAdvancedSetupDataVar` 变量（ICC 电流控制）
    - `CpuSetup` / `PchSetup` / `MeSetup` 等 AMI 标准 setup 变量
    - 399 个 IFR FormSet 顶级菜单
-5. **第三方改的核心**：电源墙 + ICC 电流 + C-State + 超线程（从文件名推测）
+6. **第三方改的核心**：电源墙 + ICC 电流 + C-State + 超线程（从文件名推测）
+
+### ⚠️ 重要警告
+
+**这两份第三方 bin 不像是 Q100-E 原厂 BIOS**：
+- 原厂 BIOS 至少应该含 12 代 ADL-S microcode（i3-12100 在原厂 BIOS 上能跑）
+- 这两份只有 9-10 代 microcode，可能是早期版本或是不同机器的 BIOS 被错放到这里
+- **i3-12100 跑的可能是你自己机器的**原厂 BIOS，需要备份后再分析
 
 ---
 
@@ -53,14 +65,36 @@
 
 ---
 
-## 2. microcode 现状
+## 2. microcode 现状（Linux 工具链分析）
 
-### 2.1 BIOS region 内的 microcode
+> **本节基于 binwalk + iucode_tool 工具在 WSL Ubuntu 22.04 上的实际分析。**
 
-- **EFI microcode GUID 搜索结果：0 个匹配**
-- 这块板的 microcode **不在**传统 BIOS region 内的 EFI microcode 文件
+### 2.1 binwalk 找到的 microcode 容器
 
-### 2.2 ME 区域 PMCC000 容器（microcode 真正位置）
+```
+0x1D90D18: Intel x86 or x64 microcode, sig 0x00090671, pf_mask 0x82, 2021-06-14, rev 0x001c, size 188416
+0x1E90B18: Intel x86 or x64 microcode, sig 0x00090671, pf_mask 0x82, 2021-06-14, rev 0x001c, size 188416
+```
+
+两个 microcode 容器，**每个 188 KB**（binwalk 报告 188416 字节），位于 ME 区域附近。
+
+### 2.2 iucode_tool 解析
+
+每个 188 KB 容器装 **2 个 microcode**：
+
+| CPUID | Family / Model | 含义 | 日期 | 版本 |
+| --- | --- | --- | --- | --- |
+| `0x00090671` | F6/M0x67 | **Coffee Lake (9 代)** | 2021-06-14 | 0x1c |
+| `0x000906a0` | F6/M0x6a | **Comet Lake (10 代)** | 2021-06-14 | 0x1c |
+
+### 2.3 重要结论
+
+- ✅ **9 代 + 10 代 microcode 都有**（在 FFS EFI microcode 文件里）
+- ❌ **没有 12 代 ADL-S**（CPUID 应为 `0x0009067A` / `0x000906E5`）
+- ❌ **没有 13 代 RPL-S**（CPUID 应为 `0x000906A4`）
+- ❌ **没有 14 代 RPL-R**（CPUID 应为 `0x000B0671` / `0x00090675`）
+
+### 2.4 ME 区域 PMCC000 容器（未解压）
 
 | 项目 | 值 |
 | --- | --- |
@@ -71,16 +105,27 @@
 | 关联文件 | `PMCC000.met`, `ConstDat` |
 | 数据格式 | **Huffman 压缩**（ME 16.x 特性） |
 
-### 2.3 microcode 提取（受限于 Huffman 压缩）
+**PMCC000 内可能含 12 代+ microcode**（被 Huffman 压缩，binwalk + iucode_tool 无法识别）。
 
-- 直接启发式扫描：找到 44 个候选，**全部是误判**（F0/M0x0 假阳性）
-- 真正解压 PMCC000 需要 Huffman 解码库（uefi_firmware 的 HuffmanLUT 未在公开 API 暴露）
-- **结论**：本项目当前工具**无法直接列出 PMCC000 内的具体 microcode**，需要二次开发或换工具
+需要用 Intel ME System Tools 的 `mecompile` / `mecleaner` 工具，或逆向 Huffman 算法才能解压。
 
-### 2.4 推荐方案
+### 2.5 关于"两份第三方 bin 不是 Q100-E 原厂 BIOS"的判断
 
-- 试装 i5-14400 看能否点亮——如果 ME 16.1.25.1917 已含 RPL-R microcode，**完全不需要改 BIOS**
-- 如果不亮，再考虑用 Intel ME System Tools 或 MEBin 工具解压 PMCC000
+第三方 BIOS 文件名暗示是给 H610/12 代平台用的，但实际上：
+- 只有 9-10 代 microcode（`0x90671` + `0x906a0`）
+- 没有 12 代 ADL-S microcode（`0x9067A`）
+- **i3-12100 在原厂 BIOS 上能跑**说明原厂 BIOS 一定有 12 代 microcode
+- 这两份 bin 可能是**早期 BIOS 版本**（在 12 代上市之前）改的，或**不是 Q100-E 的原厂 BIOS**
+
+**结论**：你机器上 i3-12100 跑的是**原厂 BIOS**（原厂 H610 板 12 代 BIOS 必定含 ADL-S microcode）。这两份第三方 bin **可能不能**装在你的机器上就跑 i3-12100，更不可能跑 i5-14400。
+
+### 2.6 推荐方案（更新版）
+
+1. **立即备份你机器的原厂 BIOS**（用 CH341A + NeoProgrammer 读 2 份以上）
+2. 跑 `tools/analyze.py` 分析原厂 bin
+3. 跑 `binwalk -y 'microcode' <原厂 bin>` 看原厂有没有 12 代 / 14 代 microcode
+4. 如果原厂含 12 代 ADL-S 但没有 14 代 RPL-R：考虑方案 A（直接装机试 ME 16.x 是否够用）
+5. 如果原厂含 14 代 RPL-R：直接用原厂 BIOS 装机测试
 
 ---
 
