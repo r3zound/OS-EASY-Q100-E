@@ -1,0 +1,558 @@
+{
+  "file": "third-party-bios\\bios_2改关闭超线程解锁PL4解锁icc修改cstate.bin",
+  "size": 33554432,
+  "hashes": {
+    "sha256": "50bf84a961e8cc861f6375e231a7e9723c8396c706d86a81f33befc5085b5b41",
+    "md5": "47bffc5a3543c54b39f09737480059bb",
+    "crc32": "f42ddf2c"
+  },
+  "fd_offset": 16,
+  "fpt_offset": 1740800,
+  "me_partitions": [
+    {
+      "name": "PSVN",
+      "offset": 1024,
+      "size": 512,
+      "abs_offset": 1741824
+    },
+    {
+      "name": "UEP\u0000",
+      "offset": 561152,
+      "size": 8192,
+      "abs_offset": 2301952
+    },
+    {
+      "name": "RSTR",
+      "offset": 1536,
+      "size": 24,
+      "abs_offset": 1742336
+    },
+    {
+      "name": "IMDP",
+      "offset": 1600,
+      "size": 64,
+      "abs_offset": 1742400
+    },
+    {
+      "name": "HVMP",
+      "offset": 1664,
+      "size": 12,
+      "abs_offset": 1742464
+    },
+    {
+      "name": "IVBP",
+      "offset": 4096,
+      "size": 16384,
+      "abs_offset": 1744896
+    },
+    {
+      "name": "MFS\u0000",
+      "offset": 20480,
+      "size": 409600,
+      "abs_offset": 1761280
+    },
+    {
+      "name": "UTOK",
+      "offset": 430080,
+      "size": 8192,
+      "abs_offset": 2170880
+    },
+    {
+      "name": "FLOG",
+      "offset": 438272,
+      "size": 8192,
+      "abs_offset": 2179072
+    },
+    {
+      "name": "ELOG",
+      "offset": 446464,
+      "size": 4096,
+      "abs_offset": 2187264
+    },
+    {
+      "name": "EFS\u0000",
+      "offset": 450560,
+      "size": 65536,
+      "abs_offset": 2191360
+    },
+    {
+      "name": "FITC",
+      "offset": 516096,
+      "size": 32768,
+      "abs_offset": 2256896
+    },
+    {
+      "name": "CDMD",
+      "offset": 548864,
+      "size": 12288,
+      "abs_offset": 2289664
+    }
+  ],
+  "cpds": [
+    {
+      "offset": 12288,
+      "entries": [
+        {
+          "name": "\\\u0000\u0000\u0000¬\u0006",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000rbe.met",
+          "offset": 1800,
+          "size": 140
+        },
+        {
+          "name": "á\u0000\u0000\u0000\u0000\u0010\u0002\u0000\u0001",
+          "offset": 539100945,
+          "size": 427
+        }
+      ]
+    },
+    {
+      "offset": 143360,
+      "entries": [
+        {
+          "name": "\u0000\u0000\u0000¨\u0004",
+          "offset": 3158064,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000PMCC000.",
+          "offset": 1332,
+          "size": 72
+        },
+        {
+          "name": "tDat\u0000\u0000\u0000\u0000_\u0001",
+          "offset": 0,
+          "size": 1936617283
+        },
+        {
+          "name": "|\u0005\u0000\u0000H",
+          "offset": 225,
+          "size": 135168
+        },
+        {
+          "name": "\u0002\u0003\" *\u0001\u0000\u0000$MN2",
+          "offset": 131232,
+          "size": 68091904
+        }
+      ]
+    },
+    {
+      "offset": 405504,
+      "entries": [
+        {
+          "name": "Ì\u0002\u0000\u0000t\u0005",
+          "offset": 7955819,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000fitc.cfg",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "el\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\u0000\u0002",
+          "offset": 0,
+          "size": 1819507059
+        },
+        {
+          "name": "@L\u0001\u0002\u0000`\u0002",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000intl.cfg",
+          "offset": 454656,
+          "size": 10367
+        },
+        {
+          "name": ".cfg.met@\b",
+          "offset": 0,
+          "size": 28016
+        },
+        {
+          "name": "\u0018\u0007\u0002\u0000@",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000evtdisp",
+          "offset": 34098048,
+          "size": 16384
+        },
+        {
+          "name": "mgr\u0000\u0000\u0000\u0000\u0000t\b\u0002",
+          "offset": 0,
+          "size": 1685288290
+        },
+        {
+          "name": "\u0000Ç\b\u0002\u00000",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000smbus",
+          "offset": 584064,
+          "size": 8285
+        },
+        {
+          "name": "to\u0000\u0000\u0000\u0000\u0000\u0000\u0000\n\t\u0002",
+          "offset": 0,
+          "size": 6713446
+        },
+        {
+          "name": "\u0000\u000b\u0002\u0000P",
+          "offset": 6645601,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000gpio",
+          "offset": 34380032,
+          "size": 8192
+        },
+        {
+          "name": "drv\u0000\u0000\u0000\u0000\u0000@±\f\u0002",
+          "offset": 0,
+          "size": 1600349555
+        },
+        {
+          "name": "\u0000×\f\u0002\u0000\u0010",
+          "offset": 31075,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000heci",
+          "offset": 34425280,
+          "size": 36864
+        },
+        {
+          "name": "v\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000­\r\u0002",
+          "offset": 0,
+          "size": 1936023917
+        },
+        {
+          "name": "Ê\r\u0002\u0000@",
+          "offset": 1702125924,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000ptt",
+          "offset": 34494848,
+          "size": 167936
+        },
+        {
+          "name": "boot\u0000\u0000\u0000\u0000\u00001\u0010\u0002",
+          "offset": 0,
+          "size": 1600217965
+        },
+        {
+          "name": "V\u0010\u0002\u0000p",
+          "offset": 225,
+          "size": 135168
+        },
+        {
+          "name": "\u0011\u0007\" ]\u0001\u0000\u0000$MN2",
+          "offset": 65552,
+          "size": 125632537
+        },
+        {
+          "name": "",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000`\u0000\u0000\u0000\u0001",
+          "offset": 342915344,
+          "size": 3331574338
+        },
+        {
+          "name": "@mnÜÅÂ@h§",
+          "offset": 2315306875,
+          "size": 579380367
+        },
+        {
+          "name": "Ä\t\u001aUi<-u¤%",
+          "offset": 113954628,
+          "size": 2999660814
+        },
+        {
+          "name": "Öò^I5Úk\u0017æ\u0001",
+          "offset": 3860511340,
+          "size": 3634406857
+        }
+      ]
+    },
+    {
+      "offset": 1605632,
+      "entries": [
+        {
+          "name": ",\u0000\u0000\u0000\u0004",
+          "offset": 225,
+          "size": 135168
+        }
+      ]
+    },
+    {
+      "offset": 1609728,
+      "entries": [
+        {
+          "name": "¼\u0000\u0000\u0000ì\u0004",
+          "offset": 26975,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000gen4_i.m",
+          "offset": 1448,
+          "size": 72
+        },
+        {
+          "name": "_d\u0000\u0000\u0000\u0000\u0000\u0000F",
+          "offset": 0,
+          "size": 879650151
+        },
+        {
+          "name": "ð\u0005\u0000\u0000H",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000gen5.met",
+          "offset": 1592,
+          "size": 72
+        },
+        {
+          "name": "á\u0000\u0000\u0000\u0000\u0010\u0002\u0000\u0001",
+          "offset": 539101193,
+          "size": 315
+        },
+        {
+          "name": "\u00009\u0000Ó\u0000T",
+          "offset": 113639449,
+          "size": 0
+        }
+      ]
+    },
+    {
+      "offset": 1662976,
+      "entries": [
+        {
+          "name": "\u0000\u0000\u0000¨\u0004",
+          "offset": 1667584620,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000IntelRec",
+          "offset": 1332,
+          "size": 72
+        },
+        {
+          "name": "lCIT\u0000\u0000\u0000\u0000\u0000\b",
+          "offset": 0,
+          "size": 1702129225
+        },
+        {
+          "name": "|\u0005\u0000\u0000H",
+          "offset": 225,
+          "size": 135168
+        },
+        {
+          "name": "\u0004\" *\u0001\u0000\u0000$MN2",
+          "offset": 65552,
+          "size": 66387968
+        }
+      ]
+    },
+    {
+      "offset": 1683456,
+      "entries": [
+        {
+          "name": "|\u0001\u0000\u0000ü\u0005",
+          "offset": 1230261333,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000SNPMULTI",
+          "offset": 1912,
+          "size": 72
+        },
+        {
+          "name": "P1\u0000\u0000\u0000\u0000\u0000\u0000@",
+          "offset": 0,
+          "size": 1296909647
+        },
+        {
+          "name": "À\u0007\u0000\u0000H",
+          "offset": 12880,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000OEMMP2.m",
+          "offset": 2056,
+          "size": 72
+        },
+        {
+          "name": "ULT2\u0000\u0000\u0000\u0000\u0000",
+          "offset": 0,
+          "size": 1297108563
+        },
+        {
+          "name": "P\b\u0000\u0000H",
+          "offset": 16979,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000SNPUSB.m",
+          "offset": 2200,
+          "size": 72
+        },
+        {
+          "name": "SB1\u0000\u0000\u0000\u0000\u0000»",
+          "offset": 0,
+          "size": 1431127375
+        },
+        {
+          "name": "à\b\u0000\u0000H",
+          "offset": 3293779,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000SNPUSB2.",
+          "offset": 2344,
+          "size": 72
+        },
+        {
+          "name": "á\u0000\u0000\u0000\u0000\u0010\u0002\u0000\u0001",
+          "offset": 539035169,
+          "size": 383
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0001\u0000©\u001b",
+          "offset": 85721088,
+          "size": 0
+        },
+        {
+          "name": "",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "",
+          "offset": 0,
+          "size": 96
+        }
+      ]
+    },
+    {
+      "offset": 2314240,
+      "entries": [
+        {
+          "name": "d\u0001\u0000\u0000 \u0004",
+          "offset": 7173737,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000dal_lnch",
+          "offset": 33865216,
+          "size": 16384
+        },
+        {
+          "name": "sdm\u0000\u0000\u0000\u0000\u0000Àä\u0004\u0002",
+          "offset": 0,
+          "size": 1886610529
+        },
+        {
+          "name": "À[\u0005\u0002\u0000@",
+          "offset": 1702060916,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000pavp",
+          "offset": 369408,
+          "size": 131242
+        },
+        {
+          "name": "a\u0000\u0000\u0000\u0000\u0000\u0000\u0000À£\u0007\u0002",
+          "offset": 0,
+          "size": 1752461160
+        },
+        {
+          "name": "\u0000\u0013\b\u0002\u0000",
+          "offset": 7762547,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000mctp",
+          "offset": 34119424,
+          "size": 36864
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0007\t\u0002",
+          "offset": 0,
+          "size": 1601399924
+        },
+        {
+          "name": "\u0000G\t\u0002\u00000\u0003",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000\u0004\u0000\u0000\u0000á",
+          "offset": 1,
+          "size": 32902
+        },
+        {
+          "name": "$MN2\u0000\u001a×º\u0010\u0000\u0001",
+          "offset": 1,
+          "size": 0
+        },
+        {
+          "name": "",
+          "offset": 0,
+          "size": 0
+        },
+        {
+          "name": "",
+          "offset": 0,
+          "size": 0
+        }
+      ]
+    },
+    {
+      "offset": 4042752,
+      "entries": [
+        {
+          "name": "\u0000\u0000\u0000¨\u0004",
+          "offset": 7370082,
+          "size": 0
+        },
+        {
+          "name": "\u0000\u0000\u0000\u0000ish_bup.",
+          "offset": 1332,
+          "size": 72
+        },
+        {
+          "name": "main\u0000\u0000\u0000\u0000\u0000G",
+          "offset": 0,
+          "size": 1600680809
+        },
+        {
+          "name": "|\u0005\u0000\u0000H",
+          "offset": 225,
+          "size": 135168
+        },
+        {
+          "name": "\" *\u0001\u0000\u0000$MN2",
+          "offset": 262149,
+          "size": 300613634
+        }
+      ]
+    }
+  ]
+}

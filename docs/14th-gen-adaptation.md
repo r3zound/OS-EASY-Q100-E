@@ -1,23 +1,29 @@
 # 14 代 CPU 适配技术方案（核心文档）
 
-## 0. TL;DR
+## 0. TL;DR（2026-09-07 更新）
 
-**核心动作**：在原厂 32MB BIOS 备份的 microcode region 里，**追加 Intel RPL-R (Raptor Lake Refresh) microcode**，让 H610 PCH 能识别 i5-14400。
+**核心发现**：这块 H610 定制板的 **microcode 在 ME 区域的 PMCC000 容器里**，不是传统 BIOS region 内的 microcode 文件。
+
+| 传统 H610 板 | Q100-E 这块定制板 |
+| --- | --- |
+| microcode 在 BIOS region 内的 microcode 文件 (FFS) | microcode 在 ME 区域的 PMCC000 容器 |
+| 改 BIOS region 追加 microcode 即可 | 需要改 ME 区域（难度高很多） |
+| ME 是相对独立的 blob | ME 16.x 与 microcode 紧耦合 |
+
+**所以原"追加 microcode 到 BIOS region"方案不直接适用**。
+
+**当前可行的方向**：
+
+1. **【最简方案】** 直接装 i5-14400 试 — ME 16.1.25.1917 是 2023 年版本，可能已含 RPL-R microcode
+2. **【进阶方案】** 用 huffman 解压 PMCC000，看里面有哪些 microcode
+3. **【高阶方案】** 升级 ME（含新 RPL-R microcode），需要 ME 修补工具
+4. **【核弹方案】** 整片 BIOS 用 Jetway 等 H610 工业板的 BIOS（含 14 代支持）替换 — 但 EC/GbE 可能不匹配
 
 **风险点**：
 
-- ME（Management Engine）区域不要动，否则可能变砖
-- microcode region 在 BIOS 镜像中部，需要先定位
-- microcode 体积可能撑爆，需在 32MB 总容量内合理腾挪
-
-**最小可执行方案**（推荐先试）：
-
-1. 用 NeoProgrammer 备份原厂 32MB bin
-2. 用 UEFITool 打开 bin，定位到 microcode region（FIT 表）
-3. 用 MMTool 追加 14 代 RPL-R microcode（CPUID `0x000B0671` / `0x00090675` 等）
-4. 检查 ME 区域、FD、PEI 等有没有破坏
-5. 用 NeoProgrammer 写回芯片
-6. 装 i5-14400 测试
+- ME 区域不要随意动（有签名校验），动错就砖
+- PMCC000 是 huffman 压缩的，直接编辑困难
+- 整片替换 BIOS 高风险，需先备份原厂
 
 ## 1. 为什么 H610 默认不认 14 代
 

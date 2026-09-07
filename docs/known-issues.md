@@ -20,18 +20,22 @@
 
 ## 2. 14 代适配相关问题
 
-### 2.1 microcode 不全
-- 原 BIOS 极可能只含 ADL-S (12代) microcode
-- 12代 → 14代 必须追加 RPL-R microcode
+### 2.1 ⚠️ microcode 实际在 ME 区域（重要发现）
+- 详见 [bios-analysis-2026-09-07.md](bios-analysis-2026-09-07.md)
+- 这块 H610 定制板的 **microcode 在 ME 区域的 PMCP/PMCC000 容器**（0x23000 起）
+- 不是传统 BIOS region 内的 microcode 文件
+- **结论**：传统"追加 microcode 到 BIOS region"这条路**走不通**
+- 替代方案：
+  - 升级 ME（含新 microcode）— 但需要 ME 修补工具
+  - 直接装 i5-14400 试 — ME 16.1.25.1917 可能已含 RPL-R
 
-### 2.2 ME 兼容性（潜在）
-- 原 ME 12.x 可能与 14 代 RPL-R 不完全兼容
-- 表现：即使注入 microcode 也可能卡在 MRC 阶段
-- 应对：先尝试只改 microcode，不行再考虑升级 ME
+### 2.2 ME 兼容性
+- 当前 ME 已经是 **16.1.25.1917**（已支持 14 代 RPL-R 设计层面）
+- 实际 PMCC000 容器内 microcode 列表需要 huffman 解压才能看到
 
 ### 2.3 Intel Reference Code（潜在）
 - 原 RC 可能只支持 ADL-S / RPL-S
-- 应对：如果只改 microcode 不亮，备选方案是移植其他 H610 板的 RC
+- 应对：如果装 i5-14400 不亮，备选方案是移植其他 H610 板的 RC
 
 ### 2.4 13/14 代 Vmin 不稳定
 - 13/14 代 K/KF 桌面 U 有 Vmin 崩溃问题
