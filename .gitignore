@@ -58,3 +58,7 @@ tools/scan_ucode_guid.py
 tools/scan_v3.py
 tools/scan_v4.py
 
+
+# ÁÙÊ± commit message ÎÄ¼ş
+.git-commit-msg.txt
+
