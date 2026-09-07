@@ -37,11 +37,17 @@ mmtool_temp/
 *.analysis.json
 
 # 实验性 BIOS 分析脚本（保留在本地但不入库）
-# 当前保留的唯一分析工具是 tools/analyze.py
-# 下面这些是开发过程中的一次性实验脚本，保留在本地供考古
+# 主工具：tools/analyze.py（综合分析）
+# 核心工具（入库）：
+#   tools/diff_bins.py - diff 两份 bin
+#   tools/find_mc_ifr.py - microcode + IFR 搜索
+#   tools/scan_ifr.py - IFR opcodes 扫描 + Setup 变量
+# 其他实验脚本（不入库，保留在本地供考古）：
 tools/analyze_bin.py
+tools/deep_analyze.py
 tools/dump_pmcp.py
 tools/dump_segments.py
+tools/dump_setup_strings.py
 tools/find_pmcp.py
 tools/parse_fpt.py
 tools/parse_full.py
@@ -52,13 +58,16 @@ tools/parse_with_lib.py
 tools/parse_with_lib2.py
 tools/scan_92k.py
 tools/scan_bin.py
+tools/scan_compressed.py
 tools/scan_microcode.py
+tools/scan_setup.py
+tools/scan_setup_full.py
 tools/scan_strings.py
 tools/scan_ucode_guid.py
 tools/scan_v3.py
 tools/scan_v4.py
 
 
-# ��ʱ commit message �ļ�
+# ��ʱ commit message �ļ�
 .git-commit-msg.txt
 

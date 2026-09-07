@@ -123,7 +123,8 @@ python tools/analyze.py backups/original/your_dump.bin
 ├── .gitignore
 │
 ├── docs/                              # 资料文档（给同型号玩家看）
-│   ├── bios-analysis-2026-09-07.md   # ⭐ BIOS 实测分析报告（含 PMCC000 发现）
+│   ├── bios-analysis-2026-09-07.md   # ⭐ BIOS 实测分析（含 PMCC000 发现）
+│   ├── bios-deep-analysis-2026-09-07.md  # ⭐ 深度分析（microcode 列表 + 电源管理 + Setup）
 │   ├── 14th-gen-adaptation.md        # 14 代适配方案（修订版）
 │   ├── hardware.md                    # 硬件参数
 │   ├── known-issues.md                # 已知问题
@@ -143,7 +144,14 @@ python tools/analyze.py backups/original/your_dump.bin
 │
 └── tools/                             # 分析脚本
     ├── analyze.py                     # ⭐ 综合分析（hash + FD + ME + microcode 位置）
-    └── requirements.txt               # 依赖
+    ├── diff_bins.py                   # diff 两份 bin
+    ├── find_mc_ifr.py                 # microcode + IFR 搜索
+    ├── scan_setup.py                  # microcode 头扫描
+    ├── scan_setup_full.py             # 全 UTF-16 字符串提取
+    ├── scan_compressed.py             # LZMA / Tiano 压缩段解压
+    ├── dump_setup_strings.py          # BIOS region 内 ASCII 字符串 dump
+    ├── scan_ifr.py                    # IFR opcodes 扫描 + Setup 变量
+    └── deep_analyze.py                # AutoParser 深度遍历
 ```
 
 ## 🛠️ 核心工具
@@ -177,13 +185,14 @@ python tools/analyze.py your_dump.bin
 ## 📚 文档导航（按阅读顺序）
 
 1. **[docs/bios-analysis-2026-09-07.md](docs/bios-analysis-2026-09-07.md)** ⭐ **必读**——BIOS 详细分析 + 关键发现
-2. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
-3. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
-4. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
-5. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
-6. [docs/tools.md](docs/tools.md) — 工具使用详解
-7. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
-8. [docs/references.md](docs/references.md) — 外部资料链接
+2. **[docs/bios-deep-analysis-2026-09-07.md](docs/bios-deep-analysis-2026-09-07.md)** ⭐ **深度分析**——microcode + 电源管理 + Setup 全解析
+3. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
+4. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
+5. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
+6. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
+7. [docs/tools.md](docs/tools.md) — 工具使用详解
+8. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
+9. [docs/references.md](docs/references.md) — 外部资料链接
 
 ## 👥 致同型号玩家
 
