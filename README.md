@@ -125,6 +125,7 @@ python tools/analyze.py backups/original/your_dump.bin
 ├── docs/                              # 资料文档（给同型号玩家看）
 │   ├── bios-analysis-2026-09-07.md   # ⭐ BIOS 实测分析（含 PMCC000 发现）
 │   ├── bios-deep-analysis-2026-09-07.md  # ⭐ 深度分析（microcode 列表 + 电源管理 + Setup）
+│   ├── bios-password-info.md         # ⭐ BIOS Setup 密码信息（vdiadmin）
 │   ├── 14th-gen-adaptation.md        # 14 代适配方案（修订版）
 │   ├── hardware.md                    # 硬件参数
 │   ├── known-issues.md                # 已知问题
@@ -186,13 +187,14 @@ python tools/analyze.py your_dump.bin
 
 1. **[docs/bios-analysis-2026-09-07.md](docs/bios-analysis-2026-09-07.md)** ⭐ **必读**——BIOS 详细分析 + 关键发现
 2. **[docs/bios-deep-analysis-2026-09-07.md](docs/bios-deep-analysis-2026-09-07.md)** ⭐ **深度分析**——microcode + 电源管理 + Setup 全解析
-3. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
-4. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
-5. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
-6. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
-7. [docs/tools.md](docs/tools.md) — 工具使用详解
-8. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
-9. [docs/references.md](docs/references.md) — 外部资料链接
+3. **[docs/bios-password-info.md](docs/bios-password-info.md)** ⭐ **密码信息**——`vdiadmin` 的真相
+4. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
+5. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
+6. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
+7. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
+8. [docs/tools.md](docs/tools.md) — 工具使用详解
+9. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
+10. [docs/references.md](docs/references.md) — 外部资料链接
 
 ## 👥 致同型号玩家
 

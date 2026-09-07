@@ -9,6 +9,7 @@
 - **当前状态**：i3-12100 正常运行中，准备上 i5-14400
 - **平台**：LGA1700 + H610 定制板（具体芯片待实测）
 - **BIOS 容量**：32MB 整片 SPI flash（含 BIOS + ME + GbE 等分区）
+- **BIOS Setup 密码**：`vdiadmin`（**⚠️ 不是 .bin 文件的密码，是进 BIOS Setup 时的用户密码**）
 - **刷写工具**：CH341A 编程器 + 烧录夹（NeoProgrammer）
 
 ## 项目目标
@@ -44,8 +45,11 @@ D:/OneDrive/User/硬件Fix/噢易乾Q100-E准系统/
 - [x] 目标 CPU：i5-14400（RPL-R, 10核16线程, 65W TDP, UHD730）
 - [x] 平台：LGA1700 + H610
 - [x] BIOS 容量：32MB 整片 SPI flash
+- [x] BIOS Setup 密码：`vdiadmin`（详见 [docs/bios-password-info.md](docs/bios-password-info.md)）
 - [x] 仓库地址：https://github.com/r3zound/OS-EASY-Q100-E
+- [x] ME 已经是 16.1.25.1917（理论上支持 14 代 RPL-R）
 - [ ] BIOS 芯片具体型号（Winbond / Macronix / GigaDevice 等，待拆机确认）
 - [ ] 当前 BIOS 版本号（待用 UEFITool / ME Analyzer 分析）
-- [ ] ME 区域版本与大小（决定能否不动 ME 改 microcode）
-- [ ] 当前 BIOS 已含哪些 microcode 版本（ADL-S? RPL-S? RPL-R?）
+- [x] ME 区域版本：16.1.25.1917（从第三方 bin 推断）
+- [x] 当前 BIOS 已含 microcode 在 ME 区域 PMCC000 容器（Huffman 压缩，需高级工具解压）
+- [x] 第三方 BIOS diff 差异：0x01000000-0x01030000 (192KB Setup) + 0x01091000-0x01377000 (2.9MB ME 模块)
