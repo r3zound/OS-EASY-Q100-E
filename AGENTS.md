@@ -47,9 +47,18 @@ D:/OneDrive/User/硬件Fix/噢易乾Q100-E准系统/
 - [x] BIOS 容量：32MB 整片 SPI flash
 - [x] BIOS Setup 密码：`vdiadmin`（详见 [docs/bios-password-info.md](docs/bios-password-info.md)）
 - [x] 仓库地址：https://github.com/r3zound/OS-EASY-Q100-E
-- [x] ME 已经是 16.1.25.1917（理论上支持 14 代 RPL-R）
+- [x] **第三方 bin 是从这台 H610 板读出后被改电源选项的产物**（2026-09-08 用户澄清）
+- [x] **第三方 bin 含 9-10 代 microcode 是 AMI 模板默认带的冗余数据**（Q100-E 物理上 LGA1700 跑不了 9-10 代 CPU）
+- [x] 第三方 bin **缺 12 代 ADL-S microcode**（可能是 i3-12100 靠 CPU 内置 fallback 跑起来）
+- [x] 第三方 bin **缺 14 代 RPL-R microcode**（必须改 BIOS 才能跑 i5-14400）
 - [ ] BIOS 芯片具体型号（Winbond / Macronix / GigaDevice 等，待拆机确认）
 - [ ] 当前 BIOS 版本号（待用 UEFITool / ME Analyzer 分析）
 - [x] ME 区域版本：16.1.25.1917（从第三方 bin 推断）
 - [x] 当前 BIOS 已含 microcode 在 ME 区域 PMCC000 容器（Huffman 压缩，需高级工具解压）
 - [x] 第三方 BIOS diff 差异：0x01000000-0x01030000 (192KB Setup) + 0x01091000-0x01377000 (2.9MB ME 模块)
+
+## ⚠️ 重要更正（2026-09-08）
+
+详见 [docs/correction-2026-09-08.md](docs/correction-2026-09-08.md)
+
+**简版**：之前报告里"两份第三方 bin 是给 9-10 代 H310/H510 用的早期 BIOS"是**错的**——这两份 bin 就是从用户这台 Q100-E H610 板 SPI flash 读出来后被第三方改了电源选项的产物。bin 里出现 9-10 代 microcode 是 AMI UEFI 模板默认带的冗余数据，**不是**支持 9-10 代 CPU。Q100-E 物理接口 LGA1700，9-10 代 CPU 根本插不进。

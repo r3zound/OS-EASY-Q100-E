@@ -188,17 +188,20 @@ python tools/analyze.py your_dump.bin
 
 ## 📚 文档导航（按阅读顺序）
 
-1. **[docs/bios-analysis-2026-09-07.md](docs/bios-analysis-2026-09-07.md)** ⭐ **必读**——BIOS 详细分析 + 关键发现
-2. **[docs/bios-deep-analysis-2026-09-07.md](docs/bios-deep-analysis-2026-09-07.md)** ⭐ **深度分析**——microcode + 电源管理 + Setup 全解析
-3. **[docs/mmtool-analysis-2026-09-08.md](docs/mmtool-analysis-2026-09-08.md)** ⭐ **MMTool 分析**——完整 FV 结构 + 代工厂推断（PCH=TGL，代工=TPV）
-4. **[docs/bios-password-info.md](docs/bios-password-info.md)** ⭐ **密码信息**——`vdiadmin` 的真相
-5. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
-6. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
-7. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
-8. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
-9. [docs/tools.md](docs/tools.md) — 工具使用详解
-10. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
-11. [docs/references.md](docs/references.md) — 外部资料链接
+> ⚠️ **2026-09-08 重要更正**：之前报告说"两份第三方 bin 是给 9-10 代 H310/H510 用的"是**错的**。**bin 就是从这台 Q100-E 板读出来被改了电源选项的产物**。详见 [docs/correction-2026-09-08.md](docs/correction-2026-09-08.md)。
+
+1. **[docs/correction-2026-09-08.md](docs/correction-2026-09-08.md)** ⚠️ **先看这个**——错误澄清 + 正确理解
+2. **[docs/bios-analysis-2026-09-07.md](docs/bios-analysis-2026-09-07.md)** ⭐ **必读**——BIOS 详细分析 + 关键发现
+3. **[docs/bios-deep-analysis-2026-09-07.md](docs/bios-deep-analysis-2026-09-07.md)** ⭐ **深度分析**——microcode + 电源管理 + Setup 全解析
+4. **[docs/mmtool-analysis-2026-09-08.md](docs/mmtool-analysis-2026-09-08.md)** ⭐ **MMTool 分析**——完整 FV 结构 + 代工厂推断（PCH=TGL，代工=TPV）
+5. **[docs/bios-password-info.md](docs/bios-password-info.md)** ⭐ **密码信息**——`vdiadmin` 的真相
+6. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
+7. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
+8. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
+9. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
+10. [docs/tools.md](docs/tools.md) — 工具使用详解
+11. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
+12. [docs/references.md](docs/references.md) — 外部资料链接
 
 ## 👥 致同型号玩家
 
