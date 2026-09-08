@@ -45,6 +45,19 @@ MMTool 解析确认了 15 个 Firmware Volumes（FV）+ 多个 Nested FVs 的完
 **Total Bytes Free**: 8,562 KB
 **Total Bytes Used**: 24,205 KB
 
+## 1.5. 工具链（最终版）
+
+| 工具 | 用途 | 版本 |
+| --- | --- | --- |
+| MMTool (Windows GUI) | 解析 FV / driver 列表 | 5.00.0007 |
+| MCExtractor (Python) | **microcode 头解析 + Latest 状态 + checksum 验证** | v1.104.0 r352 |
+| binwalk (WSL) | 找 microcode / 压缩段 / 二进制特征 | 3.x |
+| iucode_tool (WSL) | Intel microcode 提取/扫描 | 2.3.1 |
+| UEFITool (跨平台) | UEFI 镜像解析 | 0.28 |
+| uefi_firmware (Python) | 自动 FFS 解析 | 1.16 |
+
+推荐组合：**MCExtractor + MMTool** —— MCExtractor 告诉你 microcode 是什么，MMTool 告诉你文件结构是什么。
+
 ## 2. microcode 容器详细信息
 
 ### 2.1 容器位置和 GUID
@@ -65,16 +78,29 @@ FV 12 (0x01E90000):
 
 GUID `17088572-377F-44EF-8F4E-B09FFF46A070` 是 **Intel 标准的 EFI Microcode File GUID**（Intel 在 EFI 微码文件中使用的固定 GUID）。
 
-### 2.3 容器内容（结合 iucode_tool 解析）
+### 2.3 容器内容（结合 MCExtractor 详细解析）
 
-每个 188416 字节容器含 **2 个 microcode**：
+**MCExtractor v1.104.0 r352** 进一步分析每个 188416 字节容器，确认只含 **2 个 microcode**：
 
-| CPUID | 含义 | 版本 | 日期 |
-| --- | --- | --- | --- |
-| `0x00090671` | **9 代 Coffee Lake** (F6/M0x67) | 0x1c | 2021-06-14 |
-| `0x000906a0` | **10 代 Comet Lake** (F6/M0x6a) | 0x1c | 2021-06-14 |
+| # | CPUID | 含义 | Platforms | Revision | Date | State | Size |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | `0x00090671` | **9 代 Coffee Lake** (F6/M0x67) | 82 (1,7) | 1C (28) | 2021-06-14 | **PRD (Production)** | 0x2E000 (188KB) |
+| 2 | `0x000906A0` | **10 代 Comet Lake** (F6/M0x6a) | 82 (1,7) | 1C (28) | 2021-06-14 | **PRD (Production)** | 0x2E000 (188KB) |
 
-**没有 12 代 ADL-S / 13 代 RPL-S / 14 代 RPL-R microcode**。
+**重要标注**：
+- `Last = Yes` — 这两个 microcode 是 Intel **最新版**（无更新版本）
+- `State = PRD` — Production Release（不是 Beta/Pre-Production）
+- `Platforms = 82 (1,7)` — Platform 0x82 = Mobile/Embedded，Family 1/7
+
+**两份 bin 的 microcode 完全相同**（位置、版本、日期一致）。差异仅在其他 Volume。
+
+### 2.4 终极结论：12/13/14 代 microcode 缺失
+
+- ❌ **没有 12 代 ADL-S**（应有 CPUID `0x0009067A` 或 `0x000906E5`）
+- ❌ **没有 13 代 RPL-S**（应有 CPUID `0x000906A4`）
+- ❌ **没有 14 代 RPL-R**（应有 CPUID `0x000B0671` 或 `0x00090675`）
+
+MCExtractor 的"Extended BIOS"扫描也只看到相同的 2 个 microcode，没看到更多。**说明这两份 bin 完全没有 12 代+ microcode**——无论在 BIOS region 还是 ME 区域的 FFS 形式。
 
 ## 3. 第三方 BIOS 实际硬件推断（从 driver 名）
 
@@ -144,12 +170,18 @@ FV 02 (0x01070000, 6.25 MB) 含 4 个文件：
 
 ## 6. 重要发现总结
 
-### 6.1 microcode 状态（最终确认）
+### 6.1 microcode 状态（最终确认 — MCExtractor v1.104 验证）
 
-- ✅ **9 代 Coffee Lake** (`0x00090671`, 2021-06-14)
-- ✅ **10 代 Comet Lake** (`0x000906a0`, 2021-06-14)
-- ❌ **没有 12 代 ADL-S**（i3-12100 用的）—— **这份 BIOS 装不亮 i3-12100**
-- ❌ **没有 13/14 代 RPL** —— **绝对装不亮 i5-14400**
+| 代 | CPUID | 是否存在 | 用途 |
+| --- | --- | --- | --- |
+| 9 代 Coffee Lake | `0x00090671` | ✅ 存在 (Production, Latest) | 第三方 BIOS 给 9 代标压 U 改的电源优化 |
+| 10 代 Comet Lake | `0x000906A0` | ✅ 存在 (Production, Latest) | 同上 |
+| 11 代 Tiger Lake | `0x000806C1` 等 | ❌ 不存在 | — |
+| **12 代 Alder Lake** | `0x0009067A` / `0x000906E5` | ❌ **不存在** | i3-12100 跑不起来 |
+| 13 代 Raptor Lake | `0x000906A4` | ❌ 不存在 | — |
+| **14 代 RPL Refresh** | `0x000B0671` / `0x00090675` | ❌ **不存在** | i5-14400 跑不起来 |
+
+**关键**：MCExtractor 用 `-info` 和 extended BIOS 扫描都验证了：**整个 32MB bin 只有 2 个 microcode**（9代+10代），无 12 代+ microcode 存在。
 
 ### 6.2 第三方 BIOS 实际能点亮的 CPU
 
