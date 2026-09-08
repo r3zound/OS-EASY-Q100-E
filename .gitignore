@@ -40,6 +40,11 @@ mmtool_temp/
 third-party-bios/*.mmtool.rpt
 third-party-bios/*.rpt
 
+# UBU 工具链（Windows .exe + 大文件）
+tools/UBU_1_79_alt.7z
+tools/UBU_1_79_alt/
+tools/ONE bios/
+
 # 实验性 BIOS 分析脚本（保留在本地但不入库）
 # 主工具：tools/analyze.py（综合分析）
 # 核心工具（入库）：
