@@ -36,6 +36,10 @@ mmtool_temp/
 # 分析脚本自动生成的 JSON 报告
 *.analysis.json
 
+# MMTool 报告备份（保留在 third-party-bios/，但仓库里只留 docs/analysis-raw/ 内的）
+third-party-bios/*.mmtool.rpt
+third-party-bios/*.rpt
+
 # 实验性 BIOS 分析脚本（保留在本地但不入库）
 # 主工具：tools/analyze.py（综合分析）
 # 核心工具（入库）：

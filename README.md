@@ -125,6 +125,7 @@ python tools/analyze.py backups/original/your_dump.bin
 ├── docs/                              # 资料文档（给同型号玩家看）
 │   ├── bios-analysis-2026-09-07.md   # ⭐ BIOS 实测分析（含 PMCC000 发现）
 │   ├── bios-deep-analysis-2026-09-07.md  # ⭐ 深度分析（microcode 列表 + 电源管理 + Setup）
+│   ├── mmtool-analysis-2026-09-08.md # ⭐ MMTool 深度分析（FV 结构 + PCH/代工厂推断）
 │   ├── bios-password-info.md         # ⭐ BIOS Setup 密码信息（vdiadmin）
 │   ├── 14th-gen-adaptation.md        # 14 代适配方案（修订版）
 │   ├── hardware.md                    # 硬件参数
@@ -132,7 +133,9 @@ python tools/analyze.py backups/original/your_dump.bin
 │   ├── flashing-guide.md              # 刷写流程
 │   ├── tools.md                       # 工具使用
 │   ├── bios-mod-history.md            # 修改记录
-│   └── references.md                  # 参考资料
+│   ├── references.md                  # 参考资料
+│   └── analysis-raw/                  # 原始分析素材（不常用）
+│       └── bios_2.mmtool.rpt          # MMTool 完整输出（57KB）
 │
 ├── backups/                           # 原厂 BIOS 备份目录（待你备份后填入）
 │   └── README.md
@@ -187,14 +190,15 @@ python tools/analyze.py your_dump.bin
 
 1. **[docs/bios-analysis-2026-09-07.md](docs/bios-analysis-2026-09-07.md)** ⭐ **必读**——BIOS 详细分析 + 关键发现
 2. **[docs/bios-deep-analysis-2026-09-07.md](docs/bios-deep-analysis-2026-09-07.md)** ⭐ **深度分析**——microcode + 电源管理 + Setup 全解析
-3. **[docs/bios-password-info.md](docs/bios-password-info.md)** ⭐ **密码信息**——`vdiadmin` 的真相
-4. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
-5. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
-6. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
-7. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
-8. [docs/tools.md](docs/tools.md) — 工具使用详解
-9. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
-10. [docs/references.md](docs/references.md) — 外部资料链接
+3. **[docs/mmtool-analysis-2026-09-08.md](docs/mmtool-analysis-2026-09-08.md)** ⭐ **MMTool 分析**——完整 FV 结构 + 代工厂推断（PCH=TGL，代工=TPV）
+4. **[docs/bios-password-info.md](docs/bios-password-info.md)** ⭐ **密码信息**——`vdiadmin` 的真相
+5. [docs/hardware.md](docs/hardware.md) — 硬件参数 + 14 代适配矩阵
+6. [docs/14th-gen-adaptation.md](docs/14th-gen-adaptation.md) — 14 代适配方案
+7. [docs/flashing-guide.md](docs/flashing-guide.md) — 备份/改/刷 完整流程
+8. [docs/known-issues.md](docs/known-issues.md) — 主板设计层面的坑
+9. [docs/tools.md](docs/tools.md) — 工具使用详解
+10. [docs/bios-mod-history.md](docs/bios-mod-history.md) — 修改记录
+11. [docs/references.md](docs/references.md) — 外部资料链接
 
 ## 👥 致同型号玩家
 
