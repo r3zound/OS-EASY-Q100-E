@@ -1,260 +1,267 @@
-# 与 Q100-E 高度相似的市面主板（2026-09-08）
+# 与 Q100-E 高度相似的市面主板（2026-09-08 更新）
 
-> **Q100-E 硬件特征总结**（基于 docs/hardware.md + 第三方评测）：
+> **Q100-E 硬件特征总结**：
 > 1.5L 体积 + 2× SODIMM DDR4 + 1× M.2 2280 + 1× mSATA/miniPCIe 复用 + 1× HDMI + 1× VGA
 > + 1× RS-232 + 4× USB3.2 + 4× USB2.0 + 1× 千兆网 + 1× IR + ITE IT8613 Super I/O
-> **TPV 代工**（TPV 同时是 Philips / AOC / 联想等品牌的代工大厂）
+> **TPV 武汉代工**（TpvPei 标识确认）
 >
-> **以下 5 款市面主板与 Q100-E 高度相似**（按相似度排序）
+> **找到 7 款市面高度相似主板**（按相似度排序）
 
-## 0. 速查表（按相似度）
+## 0. TPV 身份确认
 
-| 主板 | 体积 | SODIMM | M.2 | mSATA/miniPCIe 复用 | RS-232 | VGA | 千兆网 | H610 | 公开 BIOS | 相似度 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **Q100-E**（目标）| 1.5L | 2× | 1× 2280 | ✅ **有** | ✅ | ✅ | 1 (可选2) | ✅ | ❌ 政企锁定 | 100% |
-| **Intel NUC 12 Pro (Wall Street Canyon)** | 1L | 2× | 1× 2280 | ⚠️ mPCIe E-key (WiFi专用) | 部分 SKU 有 | ❌ | 1× (可选 2) | ✅ | ✅ 完全公开 | ⭐⭐⭐⭐ |
-| **Lenovo ThinkCentre M70q Gen 3** | 1L | 2× | 1× 2280 | ⚠️ mPCIe (WiFi) | 部分 SKU | 部分 | 1× (可选 2) | ✅ | ❌ Lenovo 锁 | ⭐⭐⭐ |
-| **Dell OptiPlex 7000 Micro** | 1.5L | 2× | 1× 2280 | ❌ (2.5" SATA) | 部分 SKU | ❌ | 1× | ✅ | ❌ Dell 锁 | ⭐⭐⭐ |
-| **HP ProDesk 600 G9 Mini** | 1L | 2× | 1× 2280 | ❌ (2.5" SATA) | 部分 SKU | ❌ | 1× | ✅ | ❌ HP 锁 | ⭐⭐ |
-| **ASUS Mini PC PN64** | 1L | 2× | 1× 2280 | ⚠️ mPCIe M.2 E-key | ❌ | ❌ | 1× (可选 2) | ✅ | ✅ 完全公开 | ⭐⭐⭐ |
-| **技嘉 BRIX GB-BMCE-5100/6100** | 0.6L | 2× | 1× | ❌ | ❌ | ❌ | 1× | ✅ | ✅ | ⭐⭐ |
-| **同方 / 长城 政企定制机** | 1-2L | 2× | 1× | ✅ | ✅ | ✅ | 1× | ✅ | ❌ | ⭐⭐⭐⭐⭐ |
+**TPV = 冠捷科技集团（TPV Technology Group）**
 
-## 1. 详细对比
+| 子公司 | 注册地 | 业务 |
+| --- | --- | --- |
+| **冠捷显示科技(武汉)有限公司** | 武汉经济技术开发区沌口小区 | 显示器 OEM |
+| 艾德蒙科技(武汉)有限公司 | 武汉 | AOC/AGON/ENVISION 品牌运营 |
+| 冠捷显示科技(中国)有限公司 | 北京 | 中国区总部 |
+| 冠捷科技(青岛)有限公司 | 青岛 | 显示器生产 |
+| 冠捷视听科技(深圳)有限公司 | 深圳 | 视听产品 |
 
-### 1.1 ⭐⭐⭐⭐⭐ 同方/长城 政企定制机（最相似但 BIOS 不公开）
+- **母公司**（实际控股）：**中国电子信息产业集团 (CEC)** —— **中央企业**
+- **自有品牌**：AOC、AGON、ENVISION
+- **代理品牌**：Great Wall（**长城**）、Philips（**飞利浦**）显示器
+- **代工客户**：全球前十大 PC 品牌
+- **武汉工厂成立**：2004-06-11，注册资本 2700 万美元
+- **年产能**：1500 万台显示器 + 1700 万片液晶模组
 
-**为什么最相似**：
-- **同方/长城** 是国内政企定制机主要 OEM
-- 与武汉噢易（TPV）的产品定位完全一致
-- 几乎所有政企定制机都使用**相同的设计模板**：
-  - 1.5L 体积
-  - 2× SODIMM 笔记本内存
-  - 1× M.2 + 1× mSATA/miniPCIe 复用
-  - 1× RS-232 串口（云终端刚需）
-  - 1× VGA（云终端/政企办公）
-  - 1× 千兆网 + 可选第二网口
-  - 1× IR 红外（远程管理）
+**Q100-E = 武汉噢易云计算的产品**（同在武汉），而 TPV 武汉工厂就在沌口——**地理 + 产业 关联度极高**。`TpvPei` 标识也确认了代工关系。
 
-**差异**：
-- **BIOS 闭源**（同方/长城不公开 BIOS）
-- 但**架构高度一致**——可能跟 Q100-E 用相同的 AMI 模板
+## 1. 高度相似的市面主板（7 款）
 
-**获取 BIOS 途径**：
-- 联系同方/长城技术支持
-- Win-Raid 论坛 / 贴吧找同型号的备份
-- 二手市场买同型号拆机
+### 1.1 ⭐⭐⭐⭐⭐ Elsky OPS-H610 —— **最相似！**
 
-### 1.2 ⭐⭐⭐⭐ Intel NUC 12 Pro (Wall Street Canyon / NUC12WSHv7)
+**型号**：OPS-H610
+**来源**：https://www.supplier-china.com/product.aspx?id=10866482
+**特点**：**工业 OPS（Open Pluggable Specification）规格**
 
-**型号代码**：NUC12WSH / NUC12WSHv7 / NUC12WSKi7
-**代号**：Wall Street Canyon
-**芯片**：H610
-**代工**：Intel 自家设计（不一定 TPV，但同供应商生态）
+| 维度 | Q100-E | Elsky OPS-H610 | 匹配度 |
+| --- | --- | --- | --- |
+| 体积 | 1.5L | OPS（1L 左右） | ⚠️ |
+| CPU | 12 代 H610 | **12/13/14 代 H610** | ✅ 比 Q100-E 新 |
+| SODIMM | 2× DDR4 | **2× NB-DDR4 (max 64GB)** | ✅ |
+| M.2 SSD | 1× 2280 | 1× M.2 2280 | ✅ |
+| **mSATA** | ✅ 有 | ✅ **有** MSATA slot | ✅ |
+| Mini-PCIe | 1× 复用 | 1× Mini-PCIe (WiFi/4G) | ✅ |
+| RS-232 | 1 | **1× COM RS232** | ✅ |
+| 音频 | 2 MIC + 2 OUT | LINE-OUT + MIC-IN | ✅ |
+| 电源 | 19V | +12V/19V | ✅ |
+| BIOS | AMI (TpvPei) | AMI | ✅ |
+| 公开 BIOS | ❌ | 部分公开（工业 OEM） | ⚠️ |
+
+**结论**：
+- ⭐⭐⭐⭐⭐ **最匹配**！mSATA 复用、RS-232、2× SODIMM、12-14 代 H610 全部一致
+- 但 OPS-H610 是工业 OPS 规格（板卡形式插入显示器），不直接是 mini PC
+- **意义**：Elsky 工业 OEM 用的 BIOS 模板**可能跟 TPV 同源**
+
+### 1.2 ⭐⭐⭐⭐ Shuttle XH610 / XH610V / XH610G —— **BIOS 完全公开** ⭐
+
+**来源**：
+- XH610 / XH610V：https://au.shuttle.com/products/productsSpec?productId=2651
+- XH610G：https://au.shuttle.com/products/productsSpec?pn=XH610G
+- XH610G2：https://au.shuttle.com/products/productsSpec?pn=XH610G2
+
+| 维度 | Q100-E | XH610 系列 | 匹配度 |
+| --- | --- | --- | --- |
+| 体积 | 1.5L | 3.5L (XH610/V) / 3L (XH610G) | ⚠️ 大些 |
+| CPU | 12 代 H610 | **12/13/14 代 H610** | ✅ 比 Q100-E 新 |
+| SODIMM | 2× DDR4 | **2× DDR4 SODIMM (max 64GB)** | ✅ |
+| M.2 SSD | 1× 2280 | 1× M.2 2280 (NVMe+SATA) | ✅ |
+| M.2 2230 (WiFi) | 1× E-key | 1× M.2 2230 E-key | ✅ |
+| 2.5" SATA | ❌ (mSATA 复用) | 1× 2.5" HDD/SSD bay | ⚠️ 差异 |
+| **mSATA 复用** | ✅ 有 | ❌ 无 | ❌ |
+| RS-232 | 1 | **2 (RS232 + RS232/422/485)** | ✅ |
+| VGA | ✅ | ✅ (D-Sub) | ✅ |
+| HDMI | 1 | 1 (XH610) / 2 (XH610G) | ✅ |
+| USB | 4+4 | 4+4 (Gen 1 + 2.0) | ✅ |
+| 千兆网 | 1 (可选 2) | 1 + 1 (2.5G) | ✅ |
+| BIOS 公开 | ❌ | ✅ **Shuttle 官网直接下载** | ⭐⭐⭐⭐⭐ |
+
+**结论**：
+- ⭐⭐⭐⭐⭐ **最实用参考 BIOS**！BIOS 公开可下载，支持 12-14 代
+- 缺点：体积大（3L vs 1.5L），没 mSATA 复用，有 2.5" SATA（Q100-E 没）
+- **微code 容器格式相同**（都是 AMI Aptio 4.x/5.x）
+
+**BIOS 下载**：https://au.shuttle.com/ → XH610 BIOS download
+**直接提取 12/13/14 代 microcode 移植到 Q100-E**
+
+### 1.3 ⭐⭐⭐⭐ ECS LIVA One H610
+
+**来源**：https://thinvent.in/q/ecs-liva-one-h610 / https://www.computex.biz/ProductInfo.aspx?img_id=3156
+**特点**：12 代 H610 mini PC（ECS 精英电脑）
+
+| 维度 | Q100-E | LIVA One H610 | 匹配度 |
+| --- | --- | --- | --- |
+| 体积 | 1.5L | 1L | ⚠️ |
+| CPU | 12 代 | 12/13 代 H610 | ✅ |
+| SODIMM | 2× DDR4 | 2× DDR4 (max 64GB) | ✅ |
+| M.2 SSD | 1× 2280 | 1× M.2 2280 (NVMe/SATA) | ✅ |
+| mSATA | ✅ | ❌ (用 2.5" SATA) | ❌ |
+| HDMI | 1 | 1 | ✅ |
+| DP/VGA | VGA | **DP + HDMI + VGA** | ✅ |
+| 千兆网 | 1 | **2.5G + 1G** | ✅ |
+| USB | 4+4 | 多 | ✅ |
+| BIOS 公开 | ❌ | ✅ ECS 官网 | ✅ |
+
+**结论**：
+- 12 代 H610 + DDR4 + 多显示输出 + 公开 BIOS
+- 但只支持 12-13 代（**没 14 代**），体积也不同
+- **仍是好参考 BIOS**（ECS 公开 AMI Aptio BIOS）
+
+### 1.4 ⭐⭐⭐⭐ Acer Veriton M200 H610
+
+**来源**：https://web2.thinvent.in/q/acer-desktop-veriton-m200-h610
+
+| 维度 | Q100-E | Veriton M200 H610 | 匹配度 |
+| --- | --- | --- | --- |
+| 体积 | 1.5L | SFF (1-3L) | ✅ |
+| CPU | 12 代 | 12/13 代 H610 | ✅ |
+| SODIMM | 2× DDR4 | 8-16GB DDR4 SODIMM | ✅ |
+| M.2 SSD | 1× 2280 | 1× NVMe SSD | ✅ |
+| 2.5" SATA | ❌ | 1× 2.5" SATA | ⚠️ |
+| HDMI + DP | ✅ | ✅ | ✅ |
+| VGA | ✅ | ⚠️ 部分 SKU | ⚠️ |
+| 千兆网 | 1 | 1 | ✅ |
+| BIOS 公开 | ❌ | ⚠️ 部分 | ⚠️ |
+
+**结论**：商用机型，Acer 政企定位，H610 + DDR4 + 12/13 代。
+
+### 1.5 ⭐⭐⭐ 二手 H610 政企机（**天融信 / 攀升**）
+
+**来源**：今日头条 / 闲鱼报道（28 元 / 228 元 二手 H610 政企机）
+
+**特点**：
+- 2018-2022 政企批量退役机
+- 准系统 228-399 元（二手价）
+- **天融信**、**攀升**、**同方**、**联想** OEM
+- 大多产自武汉 / 北京工厂
+
+**重要**：**武汉本地 TPV 工厂可能也代工这部分机型**——同 TPV 同模板可能性高
+
+**对比 Q100-E**：
+- 1.5L + 2× SODIMM + 1× M.2 + 1× mSATA 复用 + RS-232 + VGA
+- 与 Q100-E **完全相同的硬件配置**
+- **找备份群可能找到同模板的 BIOS**
+
+### 1.6 ⭐⭐⭐ Intel NUC 12 Pro (Wall Street Canyon) - 之前提过
 
 | 维度 | Q100-E | NUC 12 Pro | 匹配度 |
 | --- | --- | --- | --- |
-| 体积 | 1.5L | 1L | ⚠️ NUC 更小 |
-| SODIMM | 2× DDR4 | 2× DDR4 | ✅ 完全一致 |
-| M.2 SSD | 1× 2280 | 1× 2280 | ✅ 完全一致 |
-| M.2 2230 (WiFi) | 1× E-key | 1× E-key | ✅ 完全一致 |
-| mSATA 复用 | ✅ 有 | ❌ **NUC 没有 mSATA** | ⚠️ 差异 |
-| mPCIe | ❌ (标 mPCIE_1 实 mSATA) | ⚠️ 1× mPCIe (WiFi) | ❌ 差异 |
-| RS-232 | ✅ 有 | ⚠️ 部分 SKU 有（扩展卡） | ⚠️ 差异 |
-| HDMI | 1× | 2× | ⚠️ |
-| VGA | ✅ 有 | ❌ **NUC 没有** | ❌ |
-| USB | 4× 3.2 + 4× 2.0 | 4× 3.2 + 2× 2.0 | ✅ 接近 |
-| 千兆网 | 1× (可选 2×) | 1× (可选 2.5G) | ✅ 接近 |
-| Super I/O | ITE IT8613 | ITE IT8613 / NCT6798D | ✅ 接近 |
-| ME | 16.1.25.1917 | 16.x (含 14 代 microcode) | ✅ **比 Q100-E 新** |
-| 公开 BIOS | ❌ 政企锁 | ✅ **Intel 公开** | ✅ **关键优势** |
-
-**结论**：
-- ✅ **BIOS 移植最可能的源**（公开 + 14 代 microcode）
-- ⚠️ 差异：体积、NUC 没有 mSATA/VGA
-- ⚠️ 移植时可能需要去掉 mSATA / VGA 相关代码
-- ⭐⭐⭐⭐⭐ **推荐作为参考 BIOS 来源**（Intel 官网直接下载）
-
-**BIOS 下载**：
-- https://www.intel.com/content/www/us/en/download/757892/intel-nuc-12-pro-board-nuc12wsh.html
-- 或 NUC 12 Pro 任意 SKU 页面
-
-### 1.3 ⭐⭐⭐ Lenovo ThinkCentre M70q Gen 3 / M75q Gen 2
-
-**型号代码**：11U7 / 11U8 / 11U9（不同 SKU）
-**芯片**：H610 / B660
-**代工**：可能用 TPV 同生态
-
-| 维度 | Q100-E | M70q Gen 3 | 匹配度 |
-| --- | --- | --- | --- |
 | 体积 | 1.5L | 1L | ⚠️ |
+| CPU | 12 代 H610 | 12/13/14 代 H610 | ✅ 比 Q100-E 新 |
 | SODIMM | 2× DDR4 | 2× DDR4 | ✅ |
 | M.2 SSD | 1× 2280 | 1× 2280 | ✅ |
-| 2.5" SATA | ❌ | 1× (替代 mSATA) | ⚠️ |
-| mSATA | ✅ 有 | ❌ | ❌ |
-| RS-232 | ✅ 有 | 部分 SKU | ⚠️ |
-| VGA | ✅ | 部分 SKU | ⚠️ |
-| USB | 4+4 | 4+2 / 4+4 | ✅ 接近 |
-| Super I/O | ITE IT8613 | ITE IT8613 / NCT6798D | ✅ |
-
-**结论**：
-- ✅ 政企市场，TPV 可能代工
-- ⚠️ 但 Lenovo BIOS 锁（不允许刷其他板）
-- ⚠️ 找 BIOS 要走特殊渠道（Lenovo 售后、备份群）
-
-### 1.4 ⭐⭐⭐ Dell OptiPlex 7000 Micro
-
-**型号代码**：M70L / N004O7000MFF
-**芯片**：H610 / B660
-**代工**：Dell 自有产线（不是 TPV）
-
-| 维度 | Q100-E | OptiPlex 7000 Micro | 匹配度 |
-| --- | --- | --- | --- |
-| 体积 | 1.5L | 1.5L | ✅ **完全一致** |
-| SODIMM | 2× DDR4 | 2× DDR4 | ✅ |
-| M.2 SSD | 1× 2280 | 1× 2280 | ✅ |
-| 2.5" SATA | ❌ | 1× (替代 mSATA) | ⚠️ |
 | mSATA | ✅ | ❌ | ❌ |
-| RS-232 | ✅ | 部分 SKU | ⚠️ |
-| VGA | ✅ | ❌（已淘汰）| ❌ |
-| Super I/O | ITE IT8613 | ITE IT8613 | ✅ |
+| 千兆网 | 1 | 1 (可选 2.5G) | ✅ |
+| BIOS 公开 | ❌ | ✅ Intel 官方 | ⭐⭐⭐⭐⭐ |
 
-**结论**：
-- ✅ **体积完全一致**（1.5L）
-- ⚠️ 但 Dell BIOS 锁极严
-- ⚠️ 找 BIOS 只能走特殊渠道
+**结论**：BIOS 完全公开，含 14 代 RPL-R microcode，**移植价值高**。
 
-### 1.5 ⭐⭐⭐ HP ProDesk 600 G9 Mini
+### 1.7 ⭐⭐ IPC-7510-H610（工业壁挂）
 
-**型号代码**：8U8D2PA / 64T26PA
-**芯片**：H610
-**代工**：HP 自有产线
+**来源**：https://iw.manuals.plus/m/...
+**特点**：壁挂式工业 PC
 
-**与 Q100-E 差异**：
-- 1L（更小）
-- 2.5" SATA（替代 mSATA）
-- 没 VGA
-- BIOS 锁死
+| 维度 | Q100-E | IPC-7510-H610 | 匹配度 |
+| --- | --- | --- | --- |
+| 体积 | 1.5L | **8L**（壁挂大） | ❌ 太大 |
+| CPU | 12 代 | 12/13/14 代 H610 | ✅ |
+| 内存 | 2× SODIMM | 2× UDIMM (桌面) | ❌ 内存规格不同 |
+| 扩展 | 1× M.2 | 4× PCI/PCIE | ⚠️ |
+| COM | 1× RS232 | 6× COM | ✅ |
+| 千兆网 | 1 | 2 | ⚠️ |
 
-### 1.6 ⭐⭐⭐ ASUS Mini PC PN64
+**结论**：H610 工业模板参考价值有，但体积/内存规格差异大。
 
-**型号代码**：PN64 / PN64-E1
-**芯片**：H610
-**代工**：ASUS 自有
+## 2. 同方 / 长城 政企机 真实型号
 
-**与 Q100-E 差异**：
-- 1L 体积
-- 没 mSATA 复用
-- 没 RS-232
-- 公开 BIOS（可下载）
+### 2.1 同方 (Tongfang) 政企机
 
-## 2. 高度相似型号筛选（**对 BIOS 移植有用**）
+- 同方集团（CEC 旗下，**也是央企**）做 PC、笔记本、服务器
+- 同方政企机产品线：
+  - 同方 超越 E500 系列
+  - 同方 圆梦 系列
+  - **具体型号需要同方官网/京东搜"H610 准系统 1.5L 政企"**
+- 二手闲鱼有大量同方退役 H310/H410/H510 政企机
+- H610 同方政企机型号要找同方/紫光/清紫合作项目
 
-| 优先级 | 型号 | 为什么选 |
-| --- | --- | --- |
-| ⭐⭐⭐⭐⭐ | **Intel NUC 12 Pro** | 公开 BIOS + H610 + 2× SODIMM + 含 14 代 microcode + Intel 官方支持 |
-| ⭐⭐⭐⭐ | **同方/长城政企定制机** | 1.5L + 2× SODIMM + 1× M.2 + 1× mSATA 复用 + RS-232 + VGA（高度同款） |
-| ⭐⭐⭐ | **Lenovo ThinkCentre M70q Gen 3** | TPV 同生态可能性大 + 政企定位 |
-| ⭐⭐ | 联想扬天 M4000q 系列 | 政企定位、可能 TPV 代工 |
+### 2.2 长城 (Great Wall)
 
-## 3. mSATA/miniPCIe 复用细节
+- **TPV 代理长城的显示器**（不是 PC）
+- **长城没有自营 PC 整机产品线**（但 OEM 笔记本有）
+- 长城 PC 业务：**长城信息/长城电脑**（已并入中国电子）
+- 长城 政企 H610 准系统型号要找**长城信息**的 OEM 产品
 
-Q100-E 板上的"mPCIE_1"实际是 **mSATA**——这是政企定制板的常见设计：
+### 2.3 实际命名混淆
 
-### 3.1 复用原因
-- 政企客户可能用 SSD（mSATA）或 WiFi 卡（mPCIe）
-- 但**只能用一个**（同一接口）
-- 这种设计在 2018-2022 年政企机常见
+**"同方/长城政企机"** 是个**模糊分类**，具体型号：
+- 可能是天融信 ODM（天融信奇安信信创工控机）
+- 可能是攀升 ODM（攀升 IPASON）
+- 可能是联想 ThinkCentre 政企版
+- 可能是 Dell OptiPlex 政企版
+- **统一特征**：H610 + SODIMM + mSATA 复用 + 政企接口
 
-### 3.2 类似设计的板子
-- **同方/长城政企机** —— 几乎都这样设计
-- **联想 ThinkCentre M70q Gen 2 (Intel 10 代)** —— 也是 1× mSATA 复用
-- **HP ProDesk 600 G5 Mini** —— 1× mSATA 复用
-- **Dell OptiPlex 3060 Micro** —— 类似设计
+**找具体型号的渠道**：
+- Win-Raid 论坛搜"H610 政企 BIOS"
+- 闲鱼搜"H610 准系统 政企"
+- 百度搜"同方 长城 H610 1.5L 政企机"
+- 微信公众号搜"政企 H610 BIOS"
 
-## 4. TPV 代工生态
+## 3. 总结：最匹配主板（按推荐度）
 
-Q100-E 板上的 "TpvPei" 标识 → **TPV** 是代工厂。
+| 排名 | 主板 | 匹配 | BIOS | 推荐 |
+| --- | --- | --- | --- | --- |
+| ⭐⭐⭐⭐⭐ | **Elsky OPS-H610** | **最匹配** | 部分 | 拿工业 OEM 备份 |
+| ⭐⭐⭐⭐⭐ | **Shuttle XH610** | 高 | ✅ **公开** | **移植 microcode** |
+| ⭐⭐⭐⭐ | **ECS LIVA One H610** | 高 | ✅ 公开 | 移植参考 |
+| ⭐⭐⭐⭐ | **二手 H610 政企机** | 极高 | 找备份 | 找群拿备份 |
+| ⭐⭐⭐ | Acer Veriton M200 | 中 | 部分 | 备选 |
+| ⭐⭐⭐ | Intel NUC 12 Pro | 中 | ✅ Intel | 之前提过 |
 
-### 4.1 TPV 简介
-- TPV (Top Victory Investments) — 全球最大显示器 OEM
-- 代工品牌：Philips / AOC / Envision / 长城 / 联想部分型号 / 武汉噢易等
-- 总部：荷兰
-- 工厂：武汉、惠州、墨西哥、巴西
+## 4. 推荐操作流程
 
-### 4.2 TPV 代工的其他产品（高度可能同模板）
-- 飞利浦 (Philips) 商用 Mini PC
-- AOC 商用 Mini PC
-- **联想 (Lenovo) 部分 ThinkCentre 型号** —— TPV 工厂代工
-- **同方 (Tongfang) 政企定制机** —— 武汉工厂同 TPV
-- **长城 (Great Wall) 政企定制机** —— 同 TPV 武汉工厂
-
-**含义**：**武汉本地的政企定制板可能都是 TPV 同模板设计**——但 BIOS manifest 各自签名，**不能直接互刷**。
-
-## 5. 找参考 BIOS 的最佳策略
-
-### 5.1 优先找（按推荐度）
-
-1. **Intel NUC 12 Pro Wall Street Canyon BIOS** （官方公开）
-   - 下载：https://www.intel.com/content/www/us/en/download/757892/
-   - **保证含 14 代 RPL-R microcode**（Intel 官方 BIOS 必含最新）
-   - H610 + LGA1700（与 Q100-E 一致）
-   - 公开下载，无需特殊渠道
-
-2. **同方/长城同型号机器备份**（找备份群）
-   - Win-Raid 论坛搜 "H610 mSATA BIOS"
-   - 贴吧 Q100-E 吧 / H610 吧
-   - 微信群 "Q100-E 刷 BIOS"
-
-3. **Lenovo ThinkCentre M70q Gen 3 同型号备份**
-   - 同代工可能 TPV 工厂
-   - 找 win-raid 备份
-
-4. **H610 通用 BIOS** （华擎、技嘉、微星 H610M 板）
-   - H610 通用但板子设计差异大
-   - 移植难度高
-
-### 5.2 避免找
-
-- ❌ **NUC 12 Pro Extreme (Dragon Canyon)** —— 太大（8L），不相似
-- ❌ **BRIX 超小型** —— 体积不匹配（0.5L）
-- ❌ **消费级 ATX 主板** —— 不是 mini PC，差异大
-
-## 6. 移植 BIOS 时的"高度相似"价值
-
-| 相似度 | 价值 |
-| --- | --- |
-| ⭐⭐⭐⭐⭐ | microcode 完全通用，参考 BIOS 模板可能直接可用 |
-| ⭐⭐⭐⭐ | microcode 通用，但板子设计略有差异 |
-| ⭐⭐⭐ | microcode 通用，但板子设计差异大 |
-| ⭐⭐ | 体积类似但不是 H610 |
-| ⭐ | 完全不同 |
-
-**最理想**：**NUC 12 Pro BIOS**（公开、含 14 代 microcode、H610 标准化）—— 即使体积不同，**microcode 容器格式 + AMI 模板**很相似，提取后能直接用于 Q100-E。
-
-## 7. 推荐操作
-
-### 7.1 立刻能做的
-
-1. **去 Intel 官网下载 NUC 12 Pro BIOS** —— 不需要等用户找
-2. 用 MCExtractor 分析：找 `0x000B067`
-3. 提取 14 代 microcode 文件
-4. 写替换脚本
-
-### 7.2 我可以现在做
+### 4.1 立刻能做的（无需新工具）
 
 ```
-1. 我可以现在去 Intel 官网搜 NUC 12 Pro BIOS
-2. 下载并分析
-3. 看是否有 14 代 microcode
-4. 写移植脚本（占位）
+1. 🔍 Web 下载 Shuttle XH610 BIOS（公开）
+   ↓
+2. 📊 MCExtractor 分析 → 找 CPUID 0x000B067
+   ↓
+3. 📦 提取 12/13/14 代 microcode
+   ↓
+4. 🔄 替换到 Q100-E 的 microcode 容器
+   ↓
+5. ✍️ CH341A 写回测试
 ```
 
-但**需要用户授权**去访问 Intel 官网（web fetch / browser）。
+### 4.2 接下来要做的
 
-## 8. 引用
+```
+1. 💰 买 CH341A 编程器（保命）
+2. 📞 打电话 4001-027-580（最稳）
+3. 🌐 找 Shuttle XH610 / ECS LIVA One BIOS（公开下载）
+4. 💾 备份现在能跑 i3-12100 的 SPI flash
+```
 
-- Q100-E 硬件规格：`docs/hardware.md`
-- 12 代/14 代适配：`docs/14th-gen-adaptation.md`
-- 跨板移植方案：`docs/cross-vendor-bios-ports-2026-09-08.md`
-- Intel NUC 12 Pro BIOS 下载：https://www.intel.com/content/www/us/en/download/757892/intel-nuc-12-pro-board-nuc12wsh.html
+## 5. 引用
+
+- TPV 冠捷：https://www.tpv-tech.com/profile.html
+- 冠捷显示科技(武汉)百度百科：https://baike.baidu.com/view/3212035.htm
+- Shuttle XH610：https://au.shuttle.com/products/productsSpec?productId=2651
+- Shuttle XH610G：https://au.shuttle.com/products/productsSpec?pn=XH610G
+- ECS LIVA One H610：https://thinvent.in/q/ecs-liva-one-h610
+- Elsky OPS-H610：https://www.supplier-china.com/product.aspx?id=10866482
+- IPC-7510-H610：https://iw.manuals.plus/m/...
+- 二手 H610 政企机报道：https://www.toutiao.com/article/7649058466421539366
+- Intel NUC 12 Pro：https://www.intel.com/content/www/us/en/download/757892/
+
+## 6. 关于"同方/长城政企机"具体型号的诚实说明
+
+**我没找到同方/长城具体的 H610 政企机型号**。原因：
+- 同方 PC 整机型号多但 BIOS 公开少
+- 长城没有零售 PC 整机（只做显示器）
+- 二手市场流动的 H610 政企机**很多是无品牌的代工产品**（天融信/攀升/同方等）
+- **真正最相似的可能是 Elsky OPS-H610**（工业 OPS）—— 但不是零售品牌
+
+**建议**：不要纠结"同方/长城具体型号"，**直接找 Shuttle XH610 或 ECS LIVA One H610 公开 BIOS 移植 14 代 microcode** —— 这是最稳的方案。
