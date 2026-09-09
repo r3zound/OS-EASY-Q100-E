@@ -1,0 +1,449 @@
+﻿
+
+Intel 八代平台 SPI 提取方案
+
+
+300 系芯片组 · AMI BIOS · Windows 全量备份
+
+
+适用：Coffee Lake（第 8/9 代 Core，H310 / B360 / H370 / Z370 / Z390）
+
+
+版本 v1.0  ·  目标产物：32MB（或 16MB）完整 SPI 编程器固件
+
+
+
+
+
+目录
+
+TOC \h \o &quot;1-2&quot;
+
+
+
+
+
+
+
+一、概述与目标
+
+
+本文面向 Intel 第八代 Core 处理器（Coffee Lake，含 8 代及同平台的 9 代）搭配 300 系主板、采用 AMI UEFI BIOS 的台式机 / 工控机，指导在 Windows 系统下，不借助外部编程器，将整颗 SPI Flash 芯片的完整内容读出并保存为文件（俗称「编程器固件 / Full SPI dump / 编程器备份」）。
+
+
+目标产物是一个包含全部区域的二进制镜像，而非厂商仅含 BIOS 主体的 .rom：
+
+
+
+Flash Descriptor（闪存描述符，FD）
+
+
+
+Intel ME / CSME 固件（Management Engine）
+
+
+
+GbE（板载网卡 ROM，如有）
+
+
+
+BIOS 主体（AMI UEFI）
+
+
+
+EC / 其他保留区（视机型）
+
+
+
+关键差异：  八代 Coffee Lake 属 300 系列芯片组，对应的 ME 大版本为 12.x（CSME 12），因此 FPT 必须使用「Intel CSME System Tools v12.x」分支中的 FPTw64.exe。这是与 600 系（ME 16）、100/200 系（ME 11）最本质的区别，版本选错会直接报 Error 26。
+
+
+
+二、适用平台判定
+
+
+确认你的机器属于「八代 + 300 系 + AMI」再按本文操作，三项任一不符请另选方案：
+
+判定项
+
+八代平台特征
+
+如何确认
+
+CPU / 芯片组
+
+300 系：H310 / B360 / H370 / Q370 / Z370 / Z390；8 代/9 代 Core
+
+CPU-Z / HWiNFO 看主板芯片组
+
+ME 版本
+
+CSME 12.x（12.0.xxxx.xxxx）
+
+HWiNFO「Motherboard → ME Firmware」
+
+BIOS 厂商
+
+AMI（多见于 Aptio V / Aptio 4）
+
+开机画面、CPU-Z「BIOS」页
+
+SPI 容量
+
+常见 16MB（128Mb）或 32MB（256Mb）
+
+主板说明书 / 芯片丝印（W25Q128 / W25Q256）
+
+
+
+提示：  Z370 虽为 8 代首发，部分早期 BIOS 仍沿用 ME 11；若 FPT v12 报版本错，请用 HWiNFO 复核 ME 版本，必要时换 FPT v11（见第六节排查）。
+
+
+
+三、工具链
+
+
+全部在 Windows（Win10 / Win11，64 位）下运行，均以管理员身份操作。推荐按「首选 → 备选」顺序尝试。
+
+
+
+3.1 首选：Intel FPT（Flash Programming Tool）
+
+
+
+来源：Intel CSME System Tools v12.x 工具包 → FPT 目录 → FPTw64.exe
+
+
+
+作用：唯一能稳定读出 Descriptor + ME + GbE + BIOS 全部区域的官方工具
+
+
+
+版本硬性要求：必须与主板 ME 大版本一致 → 八代用 v12
+
+
+
+3.2 备选：AFUWIN（AMI 官方）
+
+
+
+来源：AMI AFU（AMI Firmware Update）工具包 → AFUWINx64.exe
+
+
+
+作用：AMI BIOS 专用，加 /O 可强制整颗读取；完整性通常不如 FPT
+
+
+
+3.3 校验与解析工具
+
+
+
+系统自带：certutil（哈希）、PowerShell（大小校验）
+
+
+
+UEFITool：解析镜像分区结构，确认 Descriptor / ME / BIOS 区域齐全
+
+
+
+ME Analyzer（配套 ME 解析脚本）：验证 ME 区域完整性
+
+
+
+3.4 版本对照（核心）
+
+平台 / 芯片组
+
+ME 大版本
+
+对应 FPT 工具分支
+
+100/200 系（6/7/8 代？No）
+
+ME 11
+
+Intel ME System Tools v11
+
+300 系（八代 Coffee Lake）
+
+CSME 12
+
+Intel CSME System Tools v12  ← 本文
+
+400/500 系（Rocket/Lake）
+
+CSME 14/15
+
+Intel CSME System Tools v14 / v15
+
+600/700 系（Alder/Raptor）
+
+CSME 16
+
+Intel CSME System Tools v16
+
+
+
+四、完整操作步骤
+
+
+
+4.1 准备工作
+
+
+
+以管理员身份登录 Windows；关闭休眠（powercfg -h off）与快速启动
+
+
+
+笔记本务必接电源适配器；台式机建议接 UPS，过程中严禁断电
+
+
+
+插好 FAT32 格式的 U 盘或用磁盘目录存放产物，确保空间充足（&gt;100MB）
+
+
+
+用 HWiNFO 确认 ME 版本为 12.x，记录 SPI 芯片型号与容量
+
+
+
+4.2 第一步：识别芯片与权限（只读，不写入）
+
+
+将 FPTw64.exe 所在目录加入 PATH 或直接在该目录打开管理员 CMD，先跑识别命令：
+
+
+
+FPTw64.exe -i
+
+
+正常输出示例（关注点已标注）：
+
+
+
+Intel (R) Flash Programming Tool. CSME v12.0.70.1646
+...
+Flash Device : W25Q256 (262144 Kb / 32768 KB)   &lt;-- 芯片型号与容量
+Descriptor Region : Base = 0x000000, Limit = 0x000FFF   &lt;-- FD 可读
+BIOS Region       : Base = 0x100000, Limit = 0x1FFFFFF
+ME Region         : Base = 0x001000, Limit = 0x0FFFFF   &lt;-- ME 区域
+GbE Region        : Base = 0x000000, Limit = 0x000FFF
+Host CPU access to Flash Descriptor : Enabled        &lt;-- 关键：须 Enabled
+Host Read Access to ME Region       : Enabled        &lt;-- 关键：须 Enabled
+
+
+
+判定标准：  若「Host Read Access to ... Region」各项均为 Enabled，且容量显示 16384KB 或 32768KB，即可进入下一步。若 Read Access 为 Disabled，跳到第六节 Error 26 排查。
+
+
+
+4.3 第二步：全量 dump
+
+
+不加任何 -bios / -me 区域限定，-d 即为整颗全量：
+
+
+
+FPTw64.exe -d spi_full_300_32mb.bin
+
+
+若只需分区域提取（一般备份不推荐），语法为：
+
+
+
+FPTw64.exe -bios -d bios_only.bin     :: 仅 BIOS 区
+FPTw64.exe -me   -d me_only.bin       :: 仅 ME 区
+
+
+
+命名建议：  文件名含平台、容量、日期，例如 spi_full_300_32mb_20260909.bin，便于归档与回刷。
+
+
+
+4.4 第三步：校验（必做）
+
+
+校验大小与哈希，并与二次 dump 比对一致后再视为有效：
+
+
+
+:: 大小须精确等于 16777216（16MB）或 33554432（32MB）字节
+for %F in (spi_full_300_32mb.bin) do @echo %~zF
+
+:: 计算 SHA256，归档保存哈希值
+certutil -hashfile spi_full_300_32mb.bin SHA256
+
+:: 推荐同内容再 dump 一次比对，完全一致即为可信备份
+FPTw64.exe -d spi_full_check.bin
+certutil -hashfile spi_full_check.bin SHA256
+
+
+
+4.5 第四步：用 UEFITool 复核分区完整性
+
+
+
+用 UEFITool 打开 bin，应能看到 Flash Descriptor、ME / CSME 固件、BIOS 主体各区域
+
+
+
+确认非全 FF / 全 00，且 Descriptor 签名（首字节 5A A5 F0 0F）正确
+
+
+
+ME Analyzer 打开后应正常识别 ME 版本，无「Corrupted / Invalid」提示
+
+
+
+五、备选方案：AFUWIN
+
+
+当 FPT 因版本或权限受限时，可改用 AMI 官方 AFUWIN，加 /O 强制整颗读取：
+
+
+
+AFUWINx64.exe spi_full_300.bin /O
+
+
+
+/O：整颗（Overwrite / full chip）读取，尽量包含全部区域
+
+
+
+/N：仅 NVRAM；/B：仅 BIOS block——备份完整镜像时不要单独加这两个
+
+
+
+完整性提醒：  AFUWIN 导出内容依主板实现而异，部分机型仍只含 BIOS 主体。务必按第四节做大小与 UEFITool 分区校验，确认 ME / Descriptor 区域存在，否则不能当作「编程器固件」使用。
+
+
+
+六、常见错误与解决办法
+
+现象 / 报错
+
+原因
+
+解决办法
+
+Error 26 / Error 318：host CPU does not have read access
+
+SPI 读权限被 Descriptor 锁定 / ME 版本与 FPT 不匹配
+
+先核对 ME 为 12.x；按 6.1 排查；Z370 早期 BIOS 试 FPT v11
+
+Error 167：BIOS Lock Enable / SPI Protected
+
+BIOS_CNTL 锁、SPI 写保护
+
+进 BIOS 关闭 BIOS Lock / SPI Protection，清 NVRAM
+
+Error 280 / Error 7：cannot locate ME / init failed
+
+ME 固件异常或工具版本错
+
+换对应 CSME v12 小版本；确认 Windows 下 ME 驱动正常
+
+Error 25：not all space erased
+
+无关读取，多见于写入场景
+
+读取（dump）场景一般无视，产物仍有效
+
+容量显示异常 / 远小于 16MB
+
+仅导出 BIOS 主体，或区域受限
+
+确认未加 -bios；改用 FPT 全量；UEFITool 复核
+
+FPTw64 无法运行 / 报缺少 DLL
+
+系统环境 / 32-64 位不匹配
+
+用 x64 版，Windows 10+；以管理员运行
+
+
+
+6.1 Error 26 专项四层排查
+
+
+
+第一层 版本：确认 HWiNFO 中 ME = 12.x，FPT 使用 CSME v12 分支（最常见根因）
+
+
+
+第二层 权限：BIOS 中关闭 BIOS Lock / SPI Flash Protection / Secure Boot，恢复默认设置
+
+
+
+第三层 硬件跳线：台式主板查找 FDO / ME_Disable / BIOS_CFG 跳线，短接后重启再试
+
+
+
+第四层 兜底：以上均无效 → SPI 已被硬件锁死，软件无解，只能拆 / 夹芯片上 CH341A 编程器硬读
+
+
+
+说明：  第四层属正常边界，不是操作失误。多数 300 系台式主板走完前三层即可成功；笔记本 / 品牌机锁死概率较高。
+
+
+
+七、交付物与归档规范
+
+
+
+spi_full_300_xxmb_YYYYMMDD.bin — 全量镜像（核心交付物，大小精确 = 16MB 或 32MB）
+
+
+
+spi_full_300_xxmb.sha256 — 对应哈希值（certutil 输出，归档备查）
+
+
+
+dump_log.txt — FPTw64 -i 与 -d 的完整终端输出，记录芯片型号 / 容量 / 权限
+
+
+
+UEFITool 分区截图 / ME Analyzer 识别结果 — 完整性佐证
+
+
+建议目录结构：
+
+
+
+SPI_Backup_300_20260909/
+├─ spi_full_300_32mb.bin
+├─ spi_full_300_32mb.sha256
+├─ dump_log.txt
+└─ tools_used/
+   └─ FPTw64.exe  (CSME v12.x)
+
+
+
+八、安全须知与免责声明
+
+
+
+本文操作全程为「只读 dump」，不向 SPI 写入任何数据，理论上不会破坏现有系统
+
+
+
+务必备份到多处（U 盘 + 云盘），原始镜像与哈希一并保存，切勿用「修复」「修补」后的文件覆盖原始 bin
+
+
+
+操作过程中严禁断电、强制关机；笔记本接电源、台式机接 UPS
+
+
+
+任何对 SPI 的写回 / 刷写均有变砖风险，属另一套流程，不在本文范围；写回前请确保镜像来源可信并二次校验
+
+
+
+不同主板实现存在差异，本文按 Intel 300 系通用情况整理，个别机型可能需结合厂商工具调整
+
+
+
+
