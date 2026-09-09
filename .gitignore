@@ -36,6 +36,12 @@ mmtool_temp/
 # 分析脚本自动生成的 JSON 报告
 *.analysis.json
 
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
 # MMTool 报告备份（保留在 third-party-bios/，但仓库里只留 docs/analysis-raw/ 内的）
 third-party-bios/*.mmtool.rpt
 third-party-bios/*.rpt
