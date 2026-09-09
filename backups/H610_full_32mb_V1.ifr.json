@@ -1,0 +1,239 @@
+{
+  "bin": "backups\\H610_full_32mb_V1.bin",
+  "size": 33554432,
+  "ifr_streams": 6,
+  "total_items": 28,
+  "by_type": {
+    "numeric": 8,
+    "oneof": 8,
+    "text": 2,
+    "edit": 6,
+    "checkbox": 4
+  },
+  "items": [
+    {
+      "type": "numeric",
+      "text": "<s35265>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 42
+    },
+    {
+      "type": "oneof",
+      "text": "<s3840>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 78
+    },
+    {
+      "type": "oneof",
+      "text": "<s29696>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 100
+    },
+    {
+      "type": "oneof",
+      "text": "<s29696>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 114
+    },
+    {
+      "type": "oneof",
+      "text": "<s29696>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 128
+    },
+    {
+      "type": "numeric",
+      "text": "<s35312>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 182
+    },
+    {
+      "type": "numeric",
+      "text": "<s62533>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 202
+    },
+    {
+      "type": "numeric",
+      "text": "<s62533>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 298
+    },
+    {
+      "type": "text",
+      "text": "<s65535>",
+      "path": "FormSet_c835ff50000000a0",
+      "offset": 374
+    },
+    {
+      "type": "edit",
+      "text": [
+        161290,
+        "ITZ"
+      ],
+      "prompt": "",
+      "path": "FormSet_c835ff50000000a0",
+      "offset": 436
+    },
+    {
+      "type": "checkbox",
+      "text": "<s26624>",
+      "prompt": [
+        17113072,
+        "F\\EFI\\Microsoft\\Boot\\bootmgfw.efi"
+      ],
+      "path": "FormSet_c835ff50000000a0/Form_8b00",
+      "offset": 672
+    },
+    {
+      "type": "edit",
+      "text": [
+        161290,
+        "ITZ"
+      ],
+      "prompt": "",
+      "path": "FormSet_c835ff50000000a0/Form_8b00",
+      "offset": 676
+    },
+    {
+      "type": "edit",
+      "text": [
+        161290,
+        "ITZ"
+      ],
+      "prompt": "",
+      "path": "FormSet_c835ff50000000a0/Form_8b00",
+      "offset": 686
+    },
+    {
+      "type": "checkbox",
+      "text": "<s39047>",
+      "prompt": [
+        161290,
+        "ITZ"
+      ],
+      "path": "FormSet_c835ff50000000a0/Form_8b00/Form_5000/Form_5600/Form_e800",
+      "offset": 972
+    },
+    {
+      "type": "numeric",
+      "text": "<s35265>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 42
+    },
+    {
+      "type": "oneof",
+      "text": "<s3840>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 78
+    },
+    {
+      "type": "oneof",
+      "text": "<s29696>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 100
+    },
+    {
+      "type": "oneof",
+      "text": "<s29696>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 114
+    },
+    {
+      "type": "oneof",
+      "text": "<s29696>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 128
+    },
+    {
+      "type": "numeric",
+      "text": "<s35312>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 182
+    },
+    {
+      "type": "numeric",
+      "text": "<s62533>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 202
+    },
+    {
+      "type": "numeric",
+      "text": "<s62533>",
+      "prompt": "",
+      "path": "FormSet_2000000443c700",
+      "offset": 298
+    },
+    {
+      "type": "text",
+      "text": "<s65535>",
+      "path": "FormSet_c835ff50000000a0",
+      "offset": 374
+    },
+    {
+      "type": "edit",
+      "text": [
+        161290,
+        "ITZ"
+      ],
+      "prompt": "",
+      "path": "FormSet_c835ff50000000a0",
+      "offset": 436
+    },
+    {
+      "type": "checkbox",
+      "text": "<s26624>",
+      "prompt": [
+        17113072,
+        "F\\EFI\\Microsoft\\Boot\\bootmgfw.efi"
+      ],
+      "path": "FormSet_c835ff50000000a0/Form_8b00",
+      "offset": 672
+    },
+    {
+      "type": "edit",
+      "text": [
+        161290,
+        "ITZ"
+      ],
+      "prompt": "",
+      "path": "FormSet_c835ff50000000a0/Form_8b00",
+      "offset": 676
+    },
+    {
+      "type": "edit",
+      "text": [
+        161290,
+        "ITZ"
+      ],
+      "prompt": "",
+      "path": "FormSet_c835ff50000000a0/Form_8b00",
+      "offset": 686
+    },
+    {
+      "type": "checkbox",
+      "text": "<s39047>",
+      "prompt": [
+        161290,
+        "ITZ"
+      ],
+      "path": "FormSet_c835ff50000000a0/Form_8b00/Form_5000/Form_5600/Form_e800",
+      "offset": 972
+    }
+  ]
+}
