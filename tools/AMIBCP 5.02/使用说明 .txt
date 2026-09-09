@@ -1,0 +1,1 @@
+AMIBCP是一款bios修改工具，AMIBCP用于修改AMIBCP AptioV efi固件选项，本程序是OEM厂商专用的3件工具之一，高手可用来解锁BIOS改CPU温度风扇等等，赶快下载使用吧！
